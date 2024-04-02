@@ -11,34 +11,82 @@
 /* ==================== variables ==================== */
 :root {
 
-    /* font sizes */
+	/* font sizes */
 	--font-size: 24px;
 
-    /* gap sizes */
+	/* gap sizes */
 	--gutter: calc(var(--font-size) * 1.618);
 
 	/* colors */
-	--bg-color: white;
+	--bg-color: lightgrey;
+	--list-color: white;
+}
+
+/* ==================== color ==================== */
+body {
+	background-color: var(--bg-color);
 }
 
 /* ==================== global margin ==================== */
-
 .margin {
-    margin-left: var(--gutter);
-    margin-right: var(--gutter);
+	margin-left: var(--gutter);
+	margin-right: var(--gutter);
 }
 
 @media (min-width: 1280px){
-    .margin {
-        width: 1280px;
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: var(--gutter);
-        padding-right: var(--gutter);
-    }
+	.margin {
+		width: 1280px;
+		margin-left: auto;
+		margin-right: auto;
+		padding-left: var(--gutter);
+		padding-right: var(--gutter);
+	}
 }
+
+/* ==================== global layout ==================== */
+
+ body {
+	display: flex;
+	flex-direction: column;
+	gap: var(--gutter);
+	padding-top: var(--gutter);
+	padding-bottom: var(--gutter);
+ }
+
 
 /* ==================== todo list ==================== */
 #todo-list {
-	
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gutter)/2);
+}
+#todo-list li{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	padding: var(--gutter);
+	background-color: var(--list-color);
+	border-radius: 10px;
+}
+#todo-list li div:last-child {
+	display: flex;
+	flex-direction: column;
+}
+
+/* add new task */
+button {
+	display: block;
+	padding: calc(var(--gutter)/2);
+	background-color: red;
+	border-radius: 100px;
+	margin-top: var(--gutter);
+}
+form {
+	padding: var(--gutter);
+	background-color: var(--list-color);
+	border-radius: 10px;
+}
+input {
+	background-color: rgba(0, 0, 0, 0.05);
 }

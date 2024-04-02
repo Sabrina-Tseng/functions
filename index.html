@@ -6,6 +6,13 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
+		<script defer src="todo.js"></script>
+
+		<!-- sort list using jquery -->
+		<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+		<!-- <script src="jquery.ui.touch-punch.min.js"></script> -->
+
 	</head>
 	<body>
 		<header class="margin">
@@ -14,10 +21,18 @@
 
 		<main class="margin">
 			<section>
-				<ol id="todo-list">
-					<li>Item 1</li>
-					<li>Item 2</li>
-				</ol>
+				<ul id="todo-list">
+				</ul>
+
+				<button id="add">+ Add New Task</button>
+				<form name="add-new-task" id="add-form">
+					<label for="task">Task</label><br>
+					<input type="text" id="task" name="task" required><br>
+					<label for="time">Duration</label><br>
+					<input type="number" id="time" name="time" min="1" required> minutes
+					<button type="submit">Add</button>
+				</form>
+
 			</section>
 		</main>
 
