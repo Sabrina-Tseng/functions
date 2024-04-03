@@ -3,9 +3,8 @@ const todoItems = [];
 
 //find in html
 const dotolist = document.getElementById('todo-list');
-const addButton = document.getElementById('add');
-const addform =  document.getElementById('add-form');
-
+const form =  document.getElementById('form');
+const addButton = document.getElementById('add-button');
 
 //set up swap method
 // Array.prototype.swap = function(a, b){
@@ -49,34 +48,26 @@ function displayTask(){
 					<h3>${item.name}</h3>
 					<p>${item.duration} minutes</p>
 				</div>
-				<div class='arrows'>
-					<span class='up-arrow'>▲</span>
-					<span class='down-arrow'>▼</span>
+				<div class='list-control'>
+					<div class='arrow'>
+						<span class='up-arrow'>▲</span>
+						<span class='down-arrow'>▼</span>
+					</div>
+					<div class='no-space'>
+						<div class='delete'>
+							<span>✖</span>
+						</div>
+					</div>
 				</div>
 			</li>
 			`
 	})
-
-	// for ( let itemNum in todoItems ){
-	// 	list += `
-	// 		<li>
-	// 			<div>
-	// 				<h3>${todoItems[itemNum].name}</h3>
-	// 				<p>${todoItems[itemNum].duration} minutes</p>
-	// 			</div>
-	// 			<div class='arrows'>
-	// 				<span class='up-arrow'>▲</span>
-	// 				<span class='down-arrow'>▼</span>
-	// 			</div>
-	// 		</li>
-	// 		`
-	// }
 	
 	dotolist.innerHTML = list;
 
 	//sort
-	let upArrows = document.querySelectorAll(".up-arrow");
-	let downArrows = document.querySelectorAll(".down-arrow");
+	const upArrows = document.querySelectorAll(".up-arrow");
+	const downArrows = document.querySelectorAll(".down-arrow");
 
 	for ( let i in upArrows ){
 		upArrows[i].onclick = function(){
@@ -94,6 +85,16 @@ function displayTask(){
 			}
 		}
 	}
+
+	//delete
+	const deleteBtn = document.querySelectorAll(".delete");
+	for ( let i in deleteBtn ){
+		deleteBtn[i].onclick = function(){
+				todoItems.splice(i,1);
+				displayTask();
+		}
+	}
+
 }
 displayTask();
 
@@ -103,25 +104,34 @@ displayTask();
 // 	$( "#todo-list" ).sortable();
 //   } );
 
-
-//delete
-	// this.parentNode.parentNode.remove();
-
-
 //add new task
 addButton.addEventListener("click",function(e){
-	console.log("add");
-});
+	addButton.classList.add("hidden");
+	form.innerHTML = `
+		<form name="add-new-task" id="add-form">
+			<div>
+				<label for="task">Task</label><br>
+				<input type="text" id="task" name="task" required><br>
+				<label for="time">Duration</label><br>
+				<input type="number" id="time" name="time" min="1" required> minutes
+			</div>
+			<button type="submit">Add</button>
+		</form>
+	`
+	const addform =  document.getElementById('add-form');
 
-addform.addEventListener('submit', function(e){
-	e.preventDefault();
-
-	const taskInput = addform.elements.task;
-	const timeInput = addform.elements.time;
+	addform.addEventListener('submit', function(e){
+		e.preventDefault();
 	
-	if (taskInput.value != '' && timeInput.value > 0) {
-		console.log("add");
-		addNewTask(taskInput.value, timeInput.value);
-		displayTask();
-	};
-})
+		const taskInput = addform.elements.task;
+		const timeInput = addform.elements.time;
+		
+		if (taskInput.value != '' && timeInput.value > 0) {
+			console.log("add");
+			addNewTask(taskInput.value, timeInput.value);
+			displayTask();
+			form.innerHTML = "";
+			addButton.classList.remove("hidden");
+		};
+	})
+});

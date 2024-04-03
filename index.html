@@ -20,19 +20,21 @@
 		</header>
 
 		<main class="margin">
-			<section>
+			<section id="todo">
 				<ul id="todo-list">
 				</ul>
-
-				<button id="add">+ Add New Task</button>
-				<form name="add-new-task" id="add-form">
-					<label for="task">Task</label><br>
-					<input type="text" id="task" name="task" required><br>
-					<label for="time">Duration</label><br>
-					<input type="number" id="time" name="time" min="1" required> minutes
-					<button type="submit">Add</button>
-				</form>
-
+				<div>
+					<button id="add-button">+ Add New Task</button>
+					<div id="form">
+						<!-- <form name="add-new-task" id="add-form">
+							<label for="task">Task</label><br>
+							<input type="text" id="task" name="task" required><br>
+							<label for="time">Duration</label><br>
+							<input type="number" id="time" name="time" min="1" required> minutes
+							<button type="submit">Add</button>
+						</form> -->
+					</div>
+				</div>
 			</section>
 		</main>
 
