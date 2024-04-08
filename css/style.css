@@ -100,23 +100,26 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	opacity: 0;
-	transition: 0.25s;
 }
-li:hover .delete {
-	opacity: 1;
+@media (hover: hover){
+	.delete {
+		opacity: 0;
+		transition: 0.25s;
+	}
+	li:hover .delete {
+		opacity: 1;
+	}
 }
 
 /* add new task */
 button {
 	display: block;
-	width: 100%;
+	/* width: 100%; */
 	padding: calc(var(--gutter)/2);
 	background-color: red;
 	border-radius: 100px;
 }
-form {
+#add-form {
 	padding: var(--gutter);
 	background-color: var(--list-color);
 	border-radius: 10px;
