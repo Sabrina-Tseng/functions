@@ -1,18 +1,12 @@
-//find in html
-const dotolist = document.getElementById('todo-list');
-const form =  document.getElementById('form');
-const addButton = document.getElementById('add-button');
+//========== countdown timer ==========
 
+//find in html
 const globalCountdown = document.getElementById('global-countdown');
 const planTime = document.querySelector('input[type="time"]');
-// const startButton = document.getElementById('start-button');
-
-
-//========== countdown timer ==========
 
 //count down
 let timer;
-function startTimer(){
+function startGlobalTimer(){
 
 	//reset timer
 	clearInterval(timer);
@@ -30,6 +24,8 @@ function startTimer(){
 		timeEnd.setDate(timeEnd.getDate() + 1)
 	}
 
+	//timer
+	//https://www.w3schools.com/howto/howto_js_countdown.asp
 	timer = setInterval(function() {
 
 		// Get today's date and time
@@ -38,36 +34,45 @@ function startTimer(){
 		// Find the distance between now and the count down date
 		let distance = timeEnd.getTime() - now;
 
-		// Time calculations for days, hours, minutes and seconds
-		let days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		let hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		let seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		// Display the result in the element with id="demo"
-		globalCountdown.innerHTML = days + "d " + hours + "h "
-		+ minutes + "m " + seconds + "s ";
+		globalCountdown.innerHTML = millisecToDates(distance, displayTimeAsWords);
 
 		// If the count down is finished, write some text
 		if (distance < 0) {
 			clearInterval(timer);
-			// globalCountdown.innerHTML = "EXPIRED";
 			document.getElementById('countdown-msg').innerHTML = 'You are late!'
 		}
 
 	}, 1000);
 }
+function millisecToDates(millisec, callback){
+	// Time calculations for days, hours, minutes and seconds
+	let days = Math.floor(millisec / (1000 * 60 * 60 * 24));
+	let hours = Math.floor((millisec % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+	let minutes = Math.floor((millisec % (1000 * 60 * 60)) / (1000 * 60));
+	let seconds = Math.floor((millisec % (1000 * 60)) / 1000);
 
-//start timer
-// startButton.onclick = (event) => {
-// 	event.preventDefault();
-// 	startTimer()
-// }
+	return callback(days,hours,minutes,seconds);
+}
+function displayTimeAsWords(days,hours,minutes,seconds){
+		// Display the result
+		let output = '';
+		if (days != 0) {
+			output += days + "d "
+		}
+		if (hours != 0) {
+			output += hours + "h "
+		}
+		if (minutes != 0) {
+			output += minutes + "m "
+		}
+		output += seconds + "s ";
+		return output;
+}
 
 //when changed, save in localstorage and start the timer wit the new time
 planTime.oninput = () => {
 	storePlanTime(planTime.value);
-	startTimer();
+	startGlobalTimer();
 }
 // Save to localStorage
 function storePlanTime(input) {
@@ -75,6 +80,11 @@ function storePlanTime(input) {
 }
 
 //========== todo list ==========
+
+//find in html
+const dotolist = document.getElementById('todo-list');
+const form =  document.getElementById('form');
+const addButton = document.getElementById('add-button');
 
 //set up swap method
 Array.prototype.swap = function(a, b) {
@@ -105,28 +115,37 @@ function displayTask(){
 
 	let list = '';
 
-	todoItems.forEach(item =>{
+	todoItems.forEach((item) =>{
 		list += `
 			<li>
-				<div>
-					<h3>${item.name}</h3>
-					<p>${item.duration} minutes</p>
-				</div>
-				<div class='list-control'>
-					<div class='arrow'>
-						<span class='up-arrow'>▲</span>
-						<span class='down-arrow'>▼</span>
+				<div class='flex'>
+					<div>
+						<h3>${item.name}</h3>
+						<p>${item.duration} minutes</p>
 					</div>
-					<div class='no-space'>
-						<div class='delete'>
-							<span>✖</span>
+					<div class='right'>
+						<div class='time-left'>
+							<p>${item.duration}:00</p>
+						</div>
+						<div class='list-control'>
+							<div class='arrow'>
+								<span class='up-arrow'>▲</span>
+								<span class='down-arrow'>▼</span>
+							</div>
+							<div class='no-space'>
+								<div class='delete'>
+									<span>✖</span>
+								</div>
+							</div>
 						</div>
 					</div>
+				</div>
+				<div class='progress-bar'>
+					<progress class="bar" value="0" max="100"></progress>
 				</div>
 			</li>
 			`
 	})
-	
 	dotolist.innerHTML = list;
 
 	//sort
@@ -212,9 +231,95 @@ function storeTodoList() {
 	localStorage.setItem("todoItemStorage", JSON.stringify(todoItems));
 }
 
-//========== on load ==========
+//========== todo list countdown ==========
+// https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
 
-// Check for todo list in localStorage
+//find in html
+const startBtn = document.getElementById('start-routine');
+const bars = document.getElementsByClassName('bar');
+const nums = document.getElementsByClassName('time-left');
+
+//start timer
+startBtn.onclick = () => {
+	startItemTimer(0);
+}
+// function startItemTimer(i){
+// 	const timeneed = todoItems[i].duration * 60;
+// 	let timecount = 0;
+// 	console.log(timeneed);
+// 	bars[i].max=timeneed;
+
+// 	let timer = setInterval(function(){
+// 		if(timecount >= timeneed){
+// 			clearInterval(timer);
+// 			if(i<todoItems.length) {
+// 				startItemTimer(i+1);
+// 			}
+// 		}
+// 		bars[i].value = timecount;
+// 		console.log(bars[i].value);
+// 		timecount += 0.1;
+// 	}, 100);
+// }
+
+//count down
+let itemTimer;
+function startItemTimer(i){
+
+	//reset timer
+	clearInterval(itemTimer);
+
+	//set end time
+	let timeNow = new Date();
+	let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000)
+	console.log(timeEnd);
+	let maxBarLength = timeEnd.getTime() - new Date().getTime();
+	bars[i].max = maxBarLength;
+
+	//timer
+	itemTimer = setInterval(function() {
+
+		// Get today's date and time
+		let now = new Date().getTime();
+
+		// Find the distance between now and the count down date
+		let distance = timeEnd.getTime() - now;
+
+		nums[i].innerHTML = millisecToDates(distance, displayTimeAsNumber);
+		bars[i].value = maxBarLength - distance;
+
+		// If the count down is finished, write some text
+		if (distance < 0) {
+			nums[i].innerHTML = '0:00';
+			clearInterval(timer);
+			if(i<todoItems.length) {
+				startItemTimer(i+1);
+			}
+		}
+
+	}, 10);
+
+}
+
+function displayTimeAsNumber(days,hours,minutes,seconds){
+		// Display the result
+		let output = '';
+		if (days != 0) {
+			output += days + "d "
+		}
+		if (hours != 0) {
+			output += hours + ":"
+		}
+		output += minutes + ":"
+		if (seconds < 10) {
+			seconds = '0'+ seconds;
+		}
+		output += seconds;
+		return output;
+}
+
+
+//========== on load ==========
 
 //empty database array
 let todoItems = [];
@@ -237,4 +342,4 @@ if (localStorage.length > 0) {
 	storePlanTime(planTime.value);
 }
 
-startTimer();
+startGlobalTimer();

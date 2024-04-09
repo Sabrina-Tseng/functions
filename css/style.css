@@ -66,13 +66,24 @@ body {
 	gap: calc(var(--gutter)/2);
 }
 #todo-list li {
-	padding: var(--gutter);
 	background-color: var(--list-color);
 	border-radius: 10px;
-
+	/* overflow: hidden; */
+}
+#todo-list li .flex {
+	padding: var(--gutter);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	align-items: center;
+}
+
+.right {
+	display: flex;
+}
+/* time left */
+.time-left {
+	display: flex;
 	align-items: center;
 }
 
@@ -110,6 +121,22 @@ body {
 		opacity: 1;
 	}
 }
+/* progress bar */
+.progress-bar {
+	/* top-left | top-right | bottom-right | bottom-left */
+	border-radius: 0 0 10px 10px;
+	overflow: hidden;
+}
+
+progress{
+	display: block;
+	height: 10px;
+	width: 100%;
+}
+/* bg color */
+progress::-webkit-progress-bar {background-color: grey; width: 100%;}
+/* bar color */
+progress::-webkit-progress-value {background-color: red !important;}
 
 /* add new task */
 button {
