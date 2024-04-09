@@ -85,6 +85,7 @@ function storePlanTime(input) {
 const dotolist = document.getElementById('todo-list');
 const form =  document.getElementById('form');
 const addButton = document.getElementById('add-button');
+const startBtn = document.getElementById('start-routine');
 
 //set up swap method
 Array.prototype.swap = function(a, b) {
@@ -191,6 +192,7 @@ addButton.onclick = () => {
 
 	//hide add button
 	addButton.classList.add("hidden");
+	startBtn.classList.add("hidden");
 
 	//show add form
 	//for, id, and name should match
@@ -222,6 +224,7 @@ addButton.onclick = () => {
 			//hide add form and show add button
 			form.innerHTML = "";
 			addButton.classList.remove("hidden");
+			startBtn.classList.remove("hidden");
 		};
 	};
 };
@@ -235,7 +238,6 @@ function storeTodoList() {
 // https://stackoverflow.com/questions/31106189/create-a-simple-10-second-countdown
 
 //find in html
-const startBtn = document.getElementById('start-routine');
 const bars = document.getElementsByClassName('bar');
 const nums = document.getElementsByClassName('time-left');
 
@@ -328,10 +330,17 @@ let todoItems = [];
 if (localStorage.length > 0) {
 	//list
 	todoItems = JSON.parse(localStorage.getItem('todoItemStorage')); // Update the form from localStorage
+	if (todoItems.length == 0){
+		//default list
+		addNewTask('Brush teeth',3);
+		addNewTask('Use toilet',5);
+		addNewTask('Get dressed',10);
+	}
 	displayTask();
 	//time
 	planTime.value = localStorage.getItem('planTimeStorage');
-} else {
+} 
+else {
 	//default list
 	addNewTask('Brush teeth',3);
 	addNewTask('Use toilet',5);

@@ -1,11 +1,9 @@
-@media screen and (prefers-reduced-motion: no-preference) {
-	html {
-		scroll-behavior: smooth;
-	}
-}
+/* fonts */
+/* Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
 
 /* === for test only === */
-/* * {border:1px solid red;} */
+/* {border:1px solid red;} */
 
 
 /* ==================== variables ==================== */
@@ -13,18 +11,32 @@
 
 	/* font sizes */
 	--font-size: 24px;
+	--font-size-big: calc(var(--font-size)*2);
 
 	/* gap sizes */
 	--gutter: calc(var(--font-size) * 1.618);
 
 	/* colors */
-	--bg-color: lightgrey;
+	--bg-color: black;
+	--text-color: white;
 	--list-color: white;
+	--list-text-color: black;
+	--btn-color: orange;
+	--btn-text-color:black;
+	--bar-color: orange;
+	--bar-bg-color: beige;
 }
 
-/* ==================== color ==================== */
+/* color */
 body {
 	background-color: var(--bg-color);
+	color: var(--text-color);
+}
+/* fonts */
+body {
+	font-family: "Montserrat", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
 }
 
 /* ==================== global margin ==================== */
@@ -45,14 +57,39 @@ body {
 
 /* ==================== global layout ==================== */
 
- body {
+body {
 	display: flex;
 	flex-direction: column;
 	gap: var(--gutter);
 	padding-top: var(--gutter);
 	padding-bottom: var(--gutter);
  }
+ main {
+	display: flex;
+	flex-direction: row;
+	gap: var(--gutter);
+ }
+ main > section {
+	width: 50%;
+ }
 
+/* ==================== header ==================== */
+h1 {
+	font-size: var(--font-size-big);
+	font-weight: 200;
+}
+
+/* ==================== info ==================== */
+
+/* weather */
+#weather {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--gutter)/2);
+}
+#weather li {
+
+}
 
 /* ==================== todo list ==================== */
 #todo {
@@ -68,10 +105,11 @@ body {
 #todo-list li {
 	background-color: var(--list-color);
 	border-radius: 10px;
-	/* overflow: hidden; */
+	color: var(--list-text-color);
 }
 #todo-list li .flex {
 	padding: var(--gutter);
+	padding-bottom: calc( var(--gutter) - 10px);
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
@@ -107,7 +145,8 @@ body {
 	width: var(--gutter);
 	height: var(--gutter);
 	border-radius: 100px;
-	background-color: red;
+	background-color: var(--btn-color);
+	color: var(--btn-text-color);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -134,21 +173,28 @@ progress{
 	width: 100%;
 }
 /* bg color */
-progress::-webkit-progress-bar {background-color: grey; width: 100%;}
+progress::-webkit-progress-bar {background-color: var(--bar-bg-color); width: 100%;}
 /* bar color */
-progress::-webkit-progress-value {background-color: red !important;}
+progress::-webkit-progress-value {background-color: var(--bar-color) !important;}
 
 /* add new task */
+#buttons {
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--gutter)/2);
+}
 button {
 	display: block;
 	/* width: 100%; */
 	padding: calc(var(--gutter)/2);
-	background-color: red;
+	background-color: var(--btn-color);
+	color: var(--btn-text-color);
 	border-radius: 100px;
 }
 #add-form {
 	padding: var(--gutter);
 	background-color: var(--list-color);
+	color: var(--list-text-color);
 	border-radius: 10px;
 	display: flex;
 	flex-direction: column;
@@ -159,4 +205,13 @@ input {
 }
 .hidden {
 	display: none;
+}
+
+/* ==================== footer ==================== */
+footer {
+	font-size: calc( var(--font-size) / 2 );
+	text-align: center;
+	position: fixed;
+	bottom: var(--gutter);
+	width: 100%;
 }

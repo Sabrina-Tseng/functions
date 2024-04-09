@@ -6,8 +6,22 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/reset.css">
 		<link rel="stylesheet" href="css/style.css">
-		<script defer src="todo.js"></script>
 
+		<!-- google icons -->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+		<style>
+			.material-symbols-outlined {
+			  font-variation-settings:
+			  'FILL' 0,
+			  'wght' 400,
+			  'GRAD' 0,
+			  'opsz' 24
+			}
+		</style>
+
+		<script defer src="todo.js"></script>
+		<script defer src="weather.js"></script>
+		
 		<!-- sort list using jquery -->
 		<!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
@@ -20,6 +34,32 @@
 		</header>
 
 		<main class="margin">
+			<section id="info">
+				<ol id="weather">
+					<p>Loading weather info...</p>
+					<!-- <li>
+						<p>Currently in New York</p>
+						<span class="material-symbols-outlined">cloud</span>
+						<p>Overcast</p>
+						<p>25°C</p>
+						<p>Feels like</p>
+						<p>20°C</p>
+					</li>
+					<li>
+						<p>Today</p>
+						<p>Mostly Cloudy</p>
+						<p>24°C - 10°C</p>
+						<p>Will it rain today</p>
+						<p>No</p>
+					</li>
+					<li>
+						<p>UV index</p>
+						<p>4</p>
+						<p>Moderate</p>
+						<p>Use sun protection until 4pm</p>
+					</li> -->
+				</ol>
+			</section>
 			<section id="todo">
 				<section id="countdown">
 					<form name="set-plan-time" id="set-plan-time">
@@ -29,19 +69,18 @@
 					</form>
 					<p id="countdown-msg">You have <span id="global-countdown"></span></p>
 				</section>
-				<ul id="todo-list">
-				</ul>
-				<section>
+				<ol id="todo-list">
+				</ol>
+				<section id="buttons">
 					<button id="add-button">+ Add New Task</button>
-					<div id="form">
-					</div>
-					<button id="start-routine">Start</button>
+					<button id="start-routine">Start Routine</button>
+					<div id="form"></div>
 				</section>
 			</section>
 		</main>
 
-		<footer class="margin">
-			<p>© Sabrina Tseng, 2024</p>
+		<footer>
+			<p>© Sabrina Tseng 2024</p>
 		</footer>
 	</body>
 </html>
