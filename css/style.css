@@ -25,6 +25,13 @@
 	--btn-text-color:black;
 	--bar-color: orange;
 	--bar-bg-color: beige;
+
+	/* flex box switch */
+	--flexbox-display: column;
+}
+
+@media (min-width: 768px) {
+	:root { --flexbox-display: row; }
 }
 
 /* color */
@@ -38,6 +45,8 @@ body {
 	font-optical-sizing: auto;
 	font-style: normal;
 }
+
+
 
 /* ==================== global margin ==================== */
 .margin {
@@ -66,12 +75,13 @@ body {
  }
  main {
 	display: flex;
-	flex-direction: row;
+	flex-direction: var(--flexbox-display);
 	gap: var(--gutter);
  }
- main > section {
-	width: 50%;
- }
+
+ @media (min-width: 768px) {
+	main > section { width: 50%; }
+}
 
 /* ==================== header ==================== */
 h1 {
