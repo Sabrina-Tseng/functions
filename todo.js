@@ -245,24 +245,6 @@ const nums = document.getElementsByClassName('time-left');
 startBtn.onclick = () => {
 	startItemTimer(0);
 }
-// function startItemTimer(i){
-// 	const timeneed = todoItems[i].duration * 60;
-// 	let timecount = 0;
-// 	console.log(timeneed);
-// 	bars[i].max=timeneed;
-
-// 	let timer = setInterval(function(){
-// 		if(timecount >= timeneed){
-// 			clearInterval(timer);
-// 			if(i<todoItems.length) {
-// 				startItemTimer(i+1);
-// 			}
-// 		}
-// 		bars[i].value = timecount;
-// 		console.log(bars[i].value);
-// 		timecount += 0.1;
-// 	}, 100);
-// }
 
 //count down
 let itemTimer;

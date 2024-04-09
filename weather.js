@@ -139,6 +139,7 @@ function willItRain(array){
 			rainyHour.push(i)
 		}
 	}
+	//********** why need pop! **************************************************
 	rainyHour.pop();
 	console.log(rainyHour);
 	console.log(rainyHour.length);
@@ -160,7 +161,7 @@ function willItRain(array){
 		});
 		return output
 	} else {
-		return 'It will not rain today'
+		return 'No rain today'
 	}
 }
 
@@ -189,6 +190,23 @@ function calcUV(uv){
 
 //========== on load ==========
 
+//set sticky position
+let mql = window.matchMedia("(min-width: 768px)");
+
+function setWeatherSticky(){
+	if (mql.matches){
+		window.scrollTo(0,0);
+		const ypos = weather.getBoundingClientRect().top;
+		weather.style.position = "sticky";
+		weather.style.top = ypos + "px";
+	} else {
+		weather.style.position = "static";
+	}
+}
+mql.addEventListener("change", function() {
+	setWeatherSticky();
+});
+
 //wait for the position before loading weather
 function refreshWeather(){
 	getPosition()
@@ -201,3 +219,4 @@ function refreshWeather(){
 	});
 };
 refreshWeather();
+setWeatherSticky();

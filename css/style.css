@@ -81,6 +81,14 @@ body {
 
  @media (min-width: 768px) {
 	main > section { width: 50%; }
+	header {
+		position: sticky;
+		top: var(--gutter);
+	}
+	/* #weather {
+		position: sticky;
+		top: calc(var(--gutter)*4);
+	} */
 }
 
 /* ==================== header ==================== */
@@ -96,9 +104,6 @@ h1 {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--gutter)/2);
-}
-#weather li {
-
 }
 
 /* ==================== todo list ==================== */
@@ -190,7 +195,7 @@ progress::-webkit-progress-value {background-color: var(--bar-color) !important;
 /* add new task */
 #buttons {
 	display: flex;
-	flex-direction: row;
+	flex-direction: var(--flexbox-display);
 	gap: calc(var(--gutter)/2);
 }
 button {
@@ -222,6 +227,7 @@ footer {
 	font-size: calc( var(--font-size) / 2 );
 	text-align: center;
 	position: fixed;
-	bottom: var(--gutter);
+	bottom: calc( var(--gutter) / 4 );
 	width: 100%;
+	z-index: -1;
 }
