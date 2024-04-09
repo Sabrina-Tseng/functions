@@ -86,6 +86,7 @@ const dotolist = document.getElementById('todo-list');
 const form =  document.getElementById('form');
 const addButton = document.getElementById('add-button');
 const startBtn = document.getElementById('start-routine');
+const stopBtn = document.getElementById('stop-routine');
 
 //set up swap method
 Array.prototype.swap = function(a, b) {
@@ -125,7 +126,7 @@ function displayTask(){
 						<p>${item.duration} minutes</p>
 					</div>
 					<div class='right'>
-						<div class='time-left'>
+						<div class='time-left hidden'>
 							<p>${item.duration}:00</p>
 						</div>
 						<div class='list-control'>
@@ -241,11 +242,6 @@ function storeTodoList() {
 const bars = document.getElementsByClassName('bar');
 const nums = document.getElementsByClassName('time-left');
 
-//start timer
-startBtn.onclick = () => {
-	startItemTimer(0);
-}
-
 //count down
 let itemTimer;
 function startItemTimer(i){
@@ -253,36 +249,47 @@ function startItemTimer(i){
 	//reset timer
 	clearInterval(itemTimer);
 
-	//set end time
-	let timeNow = new Date();
-	let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000)
-	console.log(timeEnd);
-	let maxBarLength = timeEnd.getTime() - new Date().getTime();
-	bars[i].max = maxBarLength;
+	if (i == 'stop'){
+		Array.from(bars).forEach((bar) => {
+			bar.value = 0;
+		})
+	}
+	else {
+		//set li active
+		document.querySelectorAll('#todo-list li')[i].classList.add('active');
 
-	//timer
-	itemTimer = setInterval(function() {
+		//set end time
+		let timeNow = new Date();
+		let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000)
+		console.log(timeEnd);
+		let maxBarLength = timeEnd.getTime() - new Date().getTime();
+		bars[i].max = maxBarLength;
 
-		// Get today's date and time
-		let now = new Date().getTime();
+		//timer
+		itemTimer = setInterval(function() {
 
-		// Find the distance between now and the count down date
-		let distance = timeEnd.getTime() - now;
+			// Get today's date and time
+			let now = new Date().getTime();
 
-		nums[i].innerHTML = millisecToDates(distance, displayTimeAsNumber);
-		bars[i].value = maxBarLength - distance;
+			// Find the distance between now and the count down date
+			let distance = timeEnd.getTime() - now;
 
-		// If the count down is finished, write some text
-		if (distance < 0) {
-			nums[i].innerHTML = '0:00';
-			clearInterval(timer);
-			if(i<todoItems.length) {
-				startItemTimer(i+1);
+			nums[i].innerHTML = millisecToDates(distance, displayTimeAsNumber);
+			bars[i].value = maxBarLength - distance;
+
+			// If the count down is finished, write some text
+			if (distance < 0) {
+				nums[i].innerHTML = '0:00';
+				document.querySelectorAll('#todo-list li')[i].classList.remove('active');
+				document.querySelectorAll('#todo-list li')[i].classList.add('past');
+				clearInterval(timer);
+				if(i<todoItems.length) {
+					startItemTimer(i+1);
+				}
 			}
-		}
 
-	}, 10);
-
+		}, 10);
+	}
 }
 
 function displayTimeAsNumber(days,hours,minutes,seconds){
@@ -302,9 +309,63 @@ function displayTimeAsNumber(days,hours,minutes,seconds){
 		return output;
 }
 
+//========== modes ==========
+
+//start
+startBtn.onclick = () => {
+	window.scrollTo(0,0);
+	startItemTimer(0);
+	playMode();
+}
+//stop
+stopBtn.onclick = () => {
+	window.scrollTo(0,0);
+	startItemTimer('stop');
+	displayTask();
+	editMode();
+}
+
+//play mode
+function playMode(){
+	
+	document.documentElement.style.setProperty('--bg-color', 'white');
+	document.documentElement.style.setProperty('--text-color', 'black');
+
+	document.querySelectorAll('.list-control').forEach(item => {
+		item.classList.add("hidden");
+	});
+
+	document.querySelectorAll('.time-left').forEach(item => {
+		item.classList.remove("hidden");
+	});
+
+	addButton.classList.add("hidden");
+	startBtn.classList.add("hidden");
+	stopBtn.classList.remove("hidden");
+}
+
+//edit mode
+function editMode(){
+
+	document.documentElement.style.setProperty('--bg-color', 'black');
+	document.documentElement.style.setProperty('--text-color', 'white');
+
+	document.querySelectorAll('.list-control').forEach(item => {
+		item.classList.remove("hidden");
+	});
+
+	document.querySelectorAll('.time-left').forEach(item => {
+		item.classList.add("hidden");
+	});
+
+	addButton.classList.remove("hidden");
+	startBtn.classList.remove("hidden");
+	stopBtn.classList.add("hidden");
+}
 
 //========== on load ==========
 
+let mode = 'edit';
 //empty database array
 let todoItems = [];
 

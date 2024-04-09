@@ -141,8 +141,8 @@ function willItRain(array){
 	}
 	//********** why need pop! **************************************************
 	rainyHour.pop();
-	console.log(rainyHour);
-	console.log(rainyHour.length);
+	// console.log(rainyHour);
+	// console.log(rainyHour.length);
 
 	//if it will rain, export the hour
 	if (rainyHour.length > 0){
@@ -220,3 +220,9 @@ function refreshWeather(){
 };
 refreshWeather();
 setWeatherSticky();
+
+//refresh weather every 10 min
+let weatherTimer = setInterval(function() {
+	console.log('weather refreshed');
+	refreshWeather();
+}, 600000);
