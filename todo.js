@@ -256,7 +256,8 @@ function startItemTimer(i){
 	}
 	else {
 		//set li active
-		document.querySelectorAll('#todo-list li')[i].classList.add('active');
+		const list = document.querySelectorAll('#todo-list li')[i];
+		list.classList.add('active');
 
 		//set end time
 		let timeNow = new Date();
@@ -264,34 +265,52 @@ function startItemTimer(i){
 		console.log(timeEnd);
 		let maxBarLength = timeEnd.getTime() - new Date().getTime();
 		bars[i].max = maxBarLength;
-
-		//timer
-		itemTimer = setInterval(function() {
-
-			// Get today's date and time
-			let now = new Date().getTime();
-
-			// Find the distance between now and the count down date
-			let distance = timeEnd.getTime() - now;
-
-			nums[i].innerHTML = millisecToDates(distance, displayTimeAsNumber);
-			bars[i].value = maxBarLength - distance;
-
-			// If the count down is finished, write some text
-			if (distance < 0) {
-				nums[i].innerHTML = '0:00';
-				document.querySelectorAll('#todo-list li')[i].classList.remove('active');
-				document.querySelectorAll('#todo-list li')[i].classList.add('past');
-				clearInterval(timer);
-				if(i<todoItems.length) {
-					startItemTimer(i+1);
-				}
-			}
-
-		}, 10);
+	
+		startTimer(i,timeEnd,maxBarLength);
 	}
 }
+function startTimer(i, timeEnd, maxBarLength){
+	const list = document.querySelectorAll('#todo-list li')[i];
+	//timer
+	itemTimer = setInterval(function() {
 
+		// Get today's date and time
+		let now = new Date().getTime();
+
+		// Find the distance between now and the count down date
+		let distance = timeEnd.getTime() - now;
+
+		nums[i].innerHTML = millisecToDates(distance, displayTimeAsNumber);
+		bars[i].value = maxBarLength - distance;
+
+		// when finished, move to next item
+		if (distance < 0) {
+			nums[i].innerHTML = '0:00';
+			list.classList.remove('active');
+			list.classList.add('past');
+			clearInterval(timer);
+			if(i<todoItems.length) {
+				startItemTimer(i+1);
+			}
+		}
+		//pause
+		list.onclick = () => {
+			clearInterval(itemTimer);
+
+			console.log(maxBarLength)
+			console.log(distance)
+			let alreadyPass = maxBarLength - distance;
+
+			list.onclick = () => {
+				let timeNow = new Date();
+				let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000 - alreadyPass)
+				console.log(timeEnd);
+				startTimer(i,timeEnd,maxBarLength)
+			}
+		}
+	}, 10);
+}
+	
 function displayTimeAsNumber(days,hours,minutes,seconds){
 		// Display the result
 		let output = '';
@@ -319,7 +338,7 @@ startBtn.onclick = () => {
 }
 //stop
 stopBtn.onclick = () => {
-	window.scrollTo(0,0);
+	// window.scrollTo(0,0);
 	startItemTimer('stop');
 	displayTask();
 	editMode();
@@ -327,7 +346,8 @@ stopBtn.onclick = () => {
 
 //play mode
 function playMode(){
-	
+
+	//set colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
 
@@ -342,6 +362,15 @@ function playMode(){
 	addButton.classList.add("hidden");
 	startBtn.classList.add("hidden");
 	stopBtn.classList.remove("hidden");
+
+	//set clickable
+	const lists = document.querySelectorAll('#todo-list li');
+	lists.forEach(list => {
+		list.onclick = () => {
+			
+		}
+	});
+
 }
 
 //edit mode

@@ -195,8 +195,10 @@ let mql = window.matchMedia("(min-width: 768px)");
 
 function setWeatherSticky(){
 	if (mql.matches){
-		window.scrollTo(0,0);
-		const ypos = weather.getBoundingClientRect().top;
+
+		const ypos = document.querySelector("header").offsetHeight + (24*1.618*2);
+		console.log(ypos);
+
 		weather.style.position = "sticky";
 		weather.style.top = ypos + "px";
 	} else {
