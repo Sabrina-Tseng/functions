@@ -270,6 +270,7 @@ function startItemTimer(i){
 	}
 }
 function startTimer(i, timeEnd, maxBarLength){
+	const lists = document.querySelectorAll('#todo-list li');
 	const list = document.querySelectorAll('#todo-list li')[i];
 	//timer
 	itemTimer = setInterval(function() {
@@ -293,15 +294,37 @@ function startTimer(i, timeEnd, maxBarLength){
 				startItemTimer(i+1);
 			}
 		}
+
+		//skip
+		for ( let clickedlist in lists ) {
+			//if it's not the current active list
+			if (clickedlist != i) {
+
+				lists[clickedlist].onclick = () => {
+					//go through the list and past the one before
+					for ( let listnum in lists ){
+						if ( listnum < clickedlist ){
+							lists[listnum].classList.add('past');
+						}
+					}
+					startItemTimer(clickedlist);
+				}
+			}
+		};
+
 		//pause
 		list.onclick = () => {
 			clearInterval(itemTimer);
+			// list.classList.remove('active');
+			list.classList.add('pause');
 
 			console.log(maxBarLength)
 			console.log(distance)
 			let alreadyPass = maxBarLength - distance;
 
 			list.onclick = () => {
+				// list.classList.add('active');
+				list.classList.remove('pause');
 				let timeNow = new Date();
 				let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000 - alreadyPass)
 				console.log(timeEnd);
@@ -347,7 +370,6 @@ stopBtn.onclick = () => {
 //play mode
 function playMode(){
 
-	//set colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
 
@@ -362,15 +384,6 @@ function playMode(){
 	addButton.classList.add("hidden");
 	startBtn.classList.add("hidden");
 	stopBtn.classList.remove("hidden");
-
-	//set clickable
-	const lists = document.querySelectorAll('#todo-list li');
-	lists.forEach(list => {
-		list.onclick = () => {
-			
-		}
-	});
-
 }
 
 //edit mode

@@ -23,6 +23,7 @@
 	--list-color: white;
 	--list-text-color: black;
 	--list-color-active: orange;
+	--list-color-pause: lightgray;
 
 	--btn-color: orange;
 	--btn-text-color:black;
@@ -154,6 +155,10 @@ h1 {
 	height: 0px;
 	opacity: 0;
 	margin-bottom: 0;
+}
+#todo-list li.pause {
+	background-color: var(--list-color-pause);
+	filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
 }
 /* hover */
 #todo-list li:hover {
