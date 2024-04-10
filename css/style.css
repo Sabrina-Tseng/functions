@@ -164,6 +164,10 @@ h1 {
 #todo-list li:hover {
 	filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
 }
+/* drag */ 
+#todo-list li.dragging{
+	opacity: 0;
+}
 
 .right {
 	display: flex;

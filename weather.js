@@ -49,7 +49,7 @@ function displayWeather(data){
 		<li>
 			<p>Today</p>
 			<p>${todayWeather}</p>
-			<p>${data.daily.temperature_2m_max[0]} ${data.daily_units.temperature_2m_max} – ${data.daily.temperature_2m_min[0]} ${data.daily_units.temperature_2m_min}</p>
+			<p>${data.daily.temperature_2m_min[0]} ${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]} ${data.daily_units.temperature_2m_max}</p>
 			<p>${willRain}</p>
 		</li>
 		<li>
@@ -196,7 +196,7 @@ let mql = window.matchMedia("(min-width: 768px)");
 function setWeatherSticky(){
 	if (mql.matches){
 
-		const ypos = document.querySelector("header").offsetHeight + (24*1.618*2);
+		const ypos = document.querySelector("header").offsetHeight + ( 24 * 1.618 * 2)+5;
 		console.log(ypos);
 
 		weather.style.position = "sticky";

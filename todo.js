@@ -29,10 +29,13 @@ function startGlobalTimer(){
 	timer = setInterval(function() {
 
 		// Get today's date and time
-		let now = new Date().getTime();
+		let now = new Date();
+
+		//display in h1
+		document.getElementById('currentTime').innerHTML = now.getHours() + ':'+ now.getMinutes();
 
 		// Find the distance between now and the count down date
-		let distance = timeEnd.getTime() - now;
+		let distance = timeEnd.getTime() - now.getTime();
 
 		globalCountdown.innerHTML = millisecToDates(distance, displayTimeAsWords);
 
@@ -119,7 +122,7 @@ function displayTask(){
 
 	todoItems.forEach((item) =>{
 		list += `
-			<li>
+			<li draggable='true'>
 				<div class='flex'>
 					<div>
 						<h3>${item.name}</h3>
@@ -150,7 +153,7 @@ function displayTask(){
 	})
 	dotolist.innerHTML = list;
 
-	//sort
+	//sort with arrows
 	const upArrows = document.querySelectorAll(".up-arrow");
 	const downArrows = document.querySelectorAll(".down-arrow");
 
@@ -171,6 +174,72 @@ function displayTask(){
 		}
 	}
 
+	//drag to sort
+	// const handles = document.querySelectorAll("#todo li");
+
+	// handles.forEach(handle => {
+	// 	handle.addEventListener('dragstart', dragstart);
+	// 	handle.addEventListener('dragend', dragend)
+	// 	handle.addEventListener('dragover', dragover)
+	// });
+	// function dragstart(){
+	// 	console.log('drag start')
+	// };
+	// function dragend(){
+	// 	console.log('drag end')
+	// };
+	// function dragover(){
+	// 	console.log('drag over')
+	// };
+
+	const sortableList = document.querySelector("#todo-list");
+	const items = document.querySelectorAll("#todo li");
+	items.forEach(item => {
+		let tempIndex;
+		item.addEventListener("dragstart", () => {
+			// Adding dragging class to item after a delay
+			setTimeout(() => item.classList.add("dragging"), 0);
+			//remember the starting position
+			tempIndex = findIndex(item);
+		});
+		// Removing dragging class from item on dragend event
+		item.addEventListener("dragend", () => {
+			item.classList.remove("dragging")
+
+			//also update the database array
+			//save the original
+			let tempObj = todoItems[tempIndex];
+			//delete from array
+			todoItems.splice(tempIndex, 1);
+			//insert to new position
+			todoItems.splice(findIndex(item), 0, tempObj);
+			console.log(todoItems);
+			storeTodoList();
+		});
+	});
+	const initSortableList = (e) => {
+		e.preventDefault();
+		const draggingItem = document.querySelector(".dragging");
+
+		// Getting all items except currently dragging and making array of them
+		let siblings = [...sortableList.querySelectorAll("#todo li:not(.dragging)")];
+
+		// Finding the sibling after which the dragging item should be placed
+		let nextSibling = siblings.find(sibling => {
+			// console.log(sibling.offsetTop)
+			// console.log(sibling.offsetHeight)
+			// console.log(window.scrollY);
+			return e.clientY <= sibling.offsetTop + sibling.offsetHeight / 2 - window.scrollY;
+			// return e.clientY <= sibling.offsetTop - sibling.offsetHeight;
+		});
+
+		// Inserting the dragging item before the found sibling
+		sortableList.insertBefore(draggingItem, nextSibling);
+	}
+	sortableList.addEventListener("dragover", initSortableList);
+	sortableList.addEventListener("dragenter", e => e.preventDefault());
+	
+
 	//delete
 	const deleteBtn = document.querySelectorAll(".delete");
 	for ( let i in deleteBtn ){
@@ -181,6 +250,27 @@ function displayTask(){
 	}
 
 }
+//determine the li index in the ol
+function findIndex(li)
+{
+	var nodes = Array.from( dotolist.children );
+	var index = nodes.indexOf( li );
+	return index;
+	// console.log(li);
+	// console.log(index);
+}
+
+// const ulList = document.getElementById("todo-list");
+// document.getElementById("todo-list").addEventListener("click",function(e) {
+
+// 	var li = e.target.closest('li');
+// 	var nodes = Array.from( ulList.children );
+// 	var index = nodes.indexOf( li );
+
+// 	console.log(li);
+// 	console.log(index);
+// });
+
 
 //jquery sortable list
 // !function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
@@ -297,16 +387,19 @@ function startTimer(i, timeEnd, maxBarLength){
 
 		//skip
 		for ( let clickedlist in lists ) {
-			//if it's not the current active list
+
+			//if it's not the current active list, add the click to skip action
 			if (clickedlist != i) {
 
 				lists[clickedlist].onclick = () => {
-					//go through the list and past the one before
+					
+					//go through the list again and set past the one before
 					for ( let listnum in lists ){
 						if ( listnum < clickedlist ){
 							lists[listnum].classList.add('past');
 						}
 					}
+					//start the timer of the clicked list
 					startItemTimer(clickedlist);
 				}
 			}
