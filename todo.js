@@ -201,10 +201,15 @@ function displayTask(){
 			setTimeout(() => item.classList.add("dragging"), 0);
 			//remember the starting position
 			tempIndex = findIndex(item);
+			//cursor style
+			// document.documentElement.style.cursor = 'grabbing';
 		});
 		// Removing dragging class from item on dragend event
 		item.addEventListener("dragend", () => {
 			item.classList.remove("dragging")
+
+			//reset cursor style
+			// document.documentElement.style.cursor = '';
 
 			//also update the database array
 			//save the original

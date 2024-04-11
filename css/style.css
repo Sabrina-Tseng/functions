@@ -167,6 +167,15 @@ h1 {
 /* drag */ 
 #todo-list li.dragging{
 	opacity: 0;
+	cursor: grabbing;
+}
+
+/* cursor */
+#todo-list li{
+	cursor: grab;
+}
+#todo-list li:hover:active{
+	cursor: grabbing;
 }
 
 .right {
