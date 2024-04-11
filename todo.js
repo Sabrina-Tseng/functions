@@ -175,23 +175,7 @@ function displayTask(){
 	}
 
 	//drag to sort
-	// const handles = document.querySelectorAll("#todo li");
-
-	// handles.forEach(handle => {
-	// 	handle.addEventListener('dragstart', dragstart);
-	// 	handle.addEventListener('dragend', dragend)
-	// 	handle.addEventListener('dragover', dragover)
-	// });
-	// function dragstart(){
-	// 	console.log('drag start')
-	// };
-	// function dragend(){
-	// 	console.log('drag end')
-	// };
-	// function dragover(){
-	// 	console.log('drag over')
-	// };
-
+	// https://www.codingnepalweb.com/drag-and-drop-sortable-list-html-javascript/
 	const sortableList = document.querySelector("#todo-list");
 	const items = document.querySelectorAll("#todo li");
 	items.forEach(item => {
@@ -261,27 +245,7 @@ function findIndex(li)
 	var nodes = Array.from( dotolist.children );
 	var index = nodes.indexOf( li );
 	return index;
-	// console.log(li);
-	// console.log(index);
 }
-
-// const ulList = document.getElementById("todo-list");
-// document.getElementById("todo-list").addEventListener("click",function(e) {
-
-// 	var li = e.target.closest('li');
-// 	var nodes = Array.from( ulList.children );
-// 	var index = nodes.indexOf( li );
-
-// 	console.log(li);
-// 	console.log(index);
-// });
-
-
-//jquery sortable list
-// !function(a){function f(a,b){if(!(a.originalEvent.touches.length>1)){a.preventDefault();var c=a.originalEvent.changedTouches[0],d=document.createEvent("MouseEvents");d.initMouseEvent(b,!0,!0,window,1,c.screenX,c.screenY,c.clientX,c.clientY,!1,!1,!1,!1,0,null),a.target.dispatchEvent(d)}}if(a.support.touch="ontouchend"in document,a.support.touch){var e,b=a.ui.mouse.prototype,c=b._mouseInit,d=b._mouseDestroy;b._touchStart=function(a){var b=this;!e&&b._mouseCapture(a.originalEvent.changedTouches[0])&&(e=!0,b._touchMoved=!1,f(a,"mouseover"),f(a,"mousemove"),f(a,"mousedown"))},b._touchMove=function(a){e&&(this._touchMoved=!0,f(a,"mousemove"))},b._touchEnd=function(a){e&&(f(a,"mouseup"),f(a,"mouseout"),this._touchMoved||f(a,"click"),e=!1)},b._mouseInit=function(){var b=this;b.element.bind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),c.call(b)},b._mouseDestroy=function(){var b=this;b.element.unbind({touchstart:a.proxy(b,"_touchStart"),touchmove:a.proxy(b,"_touchMove"),touchend:a.proxy(b,"_touchEnd")}),d.call(b)}}}(jQuery);
-// $( function() {
-// 	$( "#todo-list" ).sortable();
-//   } );
 
 //add new task
 addButton.onclick = () => {
@@ -468,17 +432,27 @@ stopBtn.onclick = () => {
 //play mode
 function playMode(){
 
+	//colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
 
+	//hide arrows & delete btn
 	document.querySelectorAll('.list-control').forEach(item => {
 		item.classList.add("hidden");
 	});
 
+	//not draggble
+	document.querySelectorAll('#todo li').forEach(item => {
+		item.setAttribute('draggable', false);
+		item.style.cursor = 'auto';
+	});
+
+	//show timer number
 	document.querySelectorAll('.time-left').forEach(item => {
 		item.classList.remove("hidden");
 	});
 
+	//toggle buttons
 	addButton.classList.add("hidden");
 	startBtn.classList.add("hidden");
 	stopBtn.classList.remove("hidden");
