@@ -9,12 +9,22 @@ var getPosition = function (options) {
 	});
 }
 
-//get weather from api
-function getWeather(position){
+let lat;
+let long;
+let timezone;
+//convert and save position info
+function positionToLatLong(position){
+	lat = position.coords.latitude;
+	long = position.coords.longitude;
+	timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 
-	let lat = position.coords.latitude;
-	let long = position.coords.longitude;
-	let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+//get weather from api
+function getWeather(){
+
+	// let lat = position.coords.latitude;
+	// let long = position.coords.longitude;
+	// let timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 	//set api url
 	let url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${long}&current=temperature_2m,apparent_temperature,rain,weather_code&hourly=temperature_2m,rain,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,apparent_temperature_max,apparent_temperature_min,uv_index_max&timezone=${timezone}&forecast_days=1`
@@ -39,7 +49,7 @@ function displayWeather(data){
 
 	weather.innerHTML = `
 		<li>
-			<p>Currently</p>
+			<p>Currently${cityName}</p>
 			<span class="material-symbols-outlined">${icon}</span>
 			<p>${currentWeather}</p>
 			<p>${data.current.temperature_2m} ${data.current_units.temperature_2m}</p>
@@ -210,21 +220,44 @@ mql.addEventListener("change", function() {
 });
 
 //wait for the position before loading weather
-function refreshWeather(){
+function loadWeather(){
 	getPosition()
 	.then((position) => {
 		console.log(position);
-		getWeather(position);
+		positionToLatLong(position);
+		getWeather();
+		getCity();
 	})
 	.catch((err) => {
 		console.error(err.message);
 	});
 };
-refreshWeather();
+loadWeather();
 setWeatherSticky();
 
 //refresh weather every 10 min
 let weatherTimer = setInterval(function() {
 	console.log('weather refreshed');
-	refreshWeather();
+	getWeather();
 }, 600000);
+
+//get city
+let cityName = ``;
+function getCity(position){
+
+	// let lat = position.coords.latitude;
+	// let long = position.coords.longitude;
+
+	//set api url
+	const key = 'pk.ff4f279b214a572b8785dddb4a1e1ded'
+	const url = `https://us1.locationiq.com/v1/reverse?key=${key}&lat=${lat}&lon=${long}&format=json`
+
+	fetch(url, {cache: 'no-store',})
+	.then((response) => response.json())
+	.then((data) => {
+		console.log(data);
+		console.log(data.address.suburb);
+		console.log(data.address.city);
+		cityName = ` in ${data.address.suburb}, ${data.address.city}`
+	})
+}
