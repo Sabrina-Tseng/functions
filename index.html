@@ -19,16 +19,16 @@
 			}
 		</style>
 
+		<!-- confetti -->
+		<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+
 		<script defer src="todo.js"></script>
 		<script defer src="weather.js"></script>
-		
-		<!-- sort list using jquery -->
-		<!-- <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-		<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
-		<!-- <script src="jquery.ui.touch-punch.min.js"></script>-->
 
 	</head>
 	<body>
+		<canvas width="1882" height="1986" style="position: fixed; top: 0px; left: 0px; width: calc(100%); height: calc(100%); margin: 0px; padding: 0px; z-index: 999999999; pointer-events: none;"></canvas>
+
 		<header class="margin">
 			<p><span id="greeting">Good Morning</span>👋</p>
 			<h1>It's now <span id="currentTime"></span></h1>
@@ -54,7 +54,7 @@
 							<p class="label" id="warning"> </p>
 						</div>
 						<div id="routineTime-msg">
-							<p class="label">Your routine needs</p>
+							<p class="label">Routine</p>
 							<p id="routine-time"></p>
 						</div>
 					</section>

@@ -50,40 +50,95 @@ function displayWeather(data){
 	let uvMsg = calcUV(data.daily.uv_index_max[0]);
 
 	weather.innerHTML = `
-		<li>
-			<p class='label'>Currently${cityName}</p>
-			<div class='iconAndTempFlex'>
-				<span class="material-symbols-outlined bigIcon">${icon}</span>
-				<div>
-					<p class="degree">${data.current.temperature_2m} ${data.current_units.temperature_2m}</p>
-					<p>${currentWeather}</p>
-					<p>Feels like ${data.current.apparent_temperature} ${data.current_units.apparent_temperature}</p>
+		<section id='weather-mobile'>
+			<li>
+				<section class='min'>
+					<div class='iconAndTempFlex'>
+						<span class="material-symbols-outlined bigIcon">${icon}</span>
+						<div>
+							<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
+							<p>${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
+							<div class='iconAndTempFlex'>${willRain}</div>
+						</div>
+					</div>
+					<span class="material-symbols-outlined">keyboard_arrow_down</span>
+				</section>
+				<section class='max'>
+					<div>
+						<p class='label'>Currently${cityName}</p>
+						<div class='iconAndTempFlex'>
+							<span class="material-symbols-outlined bigIcon">${icon}</span>
+							<div>
+								<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
+								<p>${currentWeather}</p>
+								<p>Feels like ${data.current.apparent_temperature}&nbsp;${data.current_units.apparent_temperature}</p>
+							</div>
+						</div>
+					</div>
+					<div>
+						<p class='label'>Today</p>
+						<div class='iconAndTempFlex'>
+							<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
+							<div>
+								<p class="degree">${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
+								<p>${todayWeather}</p>
+								<div class='iconAndTempFlex'>${willRain}</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<p class='label'>Max UV index</p>
+						<div class='iconAndTempFlex'>
+							<span class="material-symbols-outlined bigIcon">heat</span>
+							<div>
+								<p class="degree">${data.daily.uv_index_max[0]}</p>
+								<p>${uvMsg[0]}</p>
+								<div class='iconAndTempFlex'>${uvMsg[2]}</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</li>
+		</section>
+		<section id='weather-desktop'>
+			<li>
+				<p class='label'>Currently${cityName}</p>
+				<div class='iconAndTempFlex'>
+					<span class="material-symbols-outlined bigIcon">${icon}</span>
+					<div>
+						<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
+						<p>${currentWeather}</p>
+						<p>Feels like ${data.current.apparent_temperature}&nbsp;${data.current_units.apparent_temperature}</p>
+					</div>
 				</div>
-			</div>
-		</li>
-		<li>
-			<p class='label'>Today</p>
-			<div class='iconAndTempFlex'>
-				<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
-				<div>
-					<p class="degree">${data.daily.temperature_2m_min[0]} ${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]} ${data.daily_units.temperature_2m_max}</p>
-					<p>${todayWeather}</p>
-					<div class='iconAndTempFlex'>${willRain}</div>
+			</li>
+			<li>
+				<p class='label'>Today</p>
+				<div class='iconAndTempFlex'>
+					<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
+					<div>
+						<p class="degree">${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
+						<p>${todayWeather}</p>
+						<div class='iconAndTempFlex'>${willRain}</div>
+					</div>
 				</div>
-			</div>
-		</li>
-		<li>
-			<p class='label'>Max UV index</p>
-			<div class='iconAndTempFlex'>
-				<span class="material-symbols-outlined bigIcon">heat</span>
-				<div>
-					<p class="degree">${data.daily.uv_index_max[0]}</p>
-					<p>${uvMsg[0]}</p>
-					<div class='iconAndTempFlex'>${uvMsg[2]}</div>
+			</li>
+			<li>
+				<p class='label'>Max UV index</p>
+				<div class='iconAndTempFlex'>
+					<span class="material-symbols-outlined bigIcon">heat</span>
+					<div>
+						<p class="degree">${data.daily.uv_index_max[0]}</p>
+						<p>${uvMsg[0]}</p>
+						<div class='iconAndTempFlex'>${uvMsg[2]}</div>
+					</div>
 				</div>
-			</div>
-		</li>
+			</li>
+		</section>
 	`
+	document.getElementById('weather-mobile').onclick = () =>{
+		document.getElementById('weather-mobile').classList.toggle('open')
+	}
 }
 
 function convertWeatherCode(code){
@@ -235,6 +290,7 @@ function setWeatherSticky(){
 		weather.style.position = "static";
 	}
 }
+
 mql.addEventListener("change", function() {
 	setWeatherSticky();
 });

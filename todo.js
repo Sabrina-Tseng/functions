@@ -272,12 +272,12 @@ function findIndex(li)
 	return index;
 }
 
-//add new task
+//========== add new task ==========
 addButton.onclick = () => {
 
 	//hide add button
 	addButton.classList.add("hidden");
-	startBtn.classList.add("hidden");
+	// startBtn.classList.add("hidden");
 
 	//show add form
 	//for, id, and name should match
@@ -378,9 +378,19 @@ function startTimer(i, timeEnd, maxBarLength){
 			nums[i].innerHTML = '0:00';
 			list.classList.remove('active');
 			list.classList.add('past');
-			clearInterval(timer);
-			if(i<todoItems.length) {
+			clearInterval(itemTimer);
+
+			if( i < todoItems.length-1 ) {
 				startItemTimer(i+1);
+			} else {
+				console.log('confetti!')
+				// confetti!
+				// https://www.kirilv.com/canvas-confetti/
+				confetti({
+					spread: 180
+				});
+
+				document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
 			}
 		}
 
@@ -467,7 +477,11 @@ function totalRoutineTime(){
 	}
 
 	//also update on page
-	document.getElementById('routine-time').innerHTML = millisecToDates(routineTimeInMS, displayTimeAsWords);
+	if (routineTimeInMS > 0) {
+		document.getElementById('routine-time').innerHTML = millisecToDates(routineTimeInMS, displayTimeAsWords);
+	} else {
+		document.getElementById('routine-time').innerHTML = '0s'
+	}
 
 	return routineTimeInMS;
 }
@@ -499,7 +513,7 @@ function playMode(){
 	//colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
-	document.documentElement.style.setProperty('--weather-bg-color', 'rgba(0, 0, 0, 0.05)');
+	document.documentElement.style.setProperty('--translucent-bg-color', 'rgba(0, 0, 0, 0.05)');
 
 	//hide arrows & delete btn
 	document.querySelectorAll('.list-control').forEach(item => {
@@ -531,7 +545,7 @@ function editMode(){
 
 	document.documentElement.style.setProperty('--bg-color', 'black');
 	document.documentElement.style.setProperty('--text-color', 'white');
-	document.documentElement.style.setProperty('--weather-bg-color', 'rgba(255, 255, 255, 0.1)');
+	document.documentElement.style.setProperty('--translucent-bg-color', 'rgba(255, 255, 255, 0.1)');
 
 	document.querySelectorAll('.list-control').forEach(item => {
 		item.classList.remove("hidden");
