@@ -44,29 +44,44 @@ function displayWeather(data){
 	let icon = convertWeatherCode(data.current.weather_code)[1];
 
 	let todayWeather = convertWeatherCode(data.daily.weather_code[0])[0];
+	let todayIcon = convertWeatherCode(data.daily.weather_code[0])[1];
+
 	let willRain = willItRain(data.hourly.rain);
 	let uvMsg = calcUV(data.daily.uv_index_max[0]);
 
 	weather.innerHTML = `
 		<li>
-			<p>Currently${cityName}</p>
-			<span class="material-symbols-outlined">${icon}</span>
-			<p>${currentWeather}</p>
-			<p>${data.current.temperature_2m} ${data.current_units.temperature_2m}</p>
-			<p>Feels like</p>
-			<p>${data.current.apparent_temperature} ${data.current_units.apparent_temperature}</p>
+			<p class='label'>Currently${cityName}</p>
+			<div class='iconAndTempFlex'>
+				<span class="material-symbols-outlined bigIcon">${icon}</span>
+				<div>
+					<p class="degree">${data.current.temperature_2m} ${data.current_units.temperature_2m}</p>
+					<p>${currentWeather}</p>
+					<p>Feels like ${data.current.apparent_temperature} ${data.current_units.apparent_temperature}</p>
+				</div>
+			</div>
 		</li>
 		<li>
-			<p>Today</p>
-			<p>${todayWeather}</p>
-			<p>${data.daily.temperature_2m_min[0]} ${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]} ${data.daily_units.temperature_2m_max}</p>
-			<p>${willRain}</p>
+			<p class='label'>Today</p>
+			<div class='iconAndTempFlex'>
+				<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
+				<div>
+					<p class="degree">${data.daily.temperature_2m_min[0]} ${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]} ${data.daily_units.temperature_2m_max}</p>
+					<p>${todayWeather}</p>
+					<div class='iconAndTempFlex'>${willRain}</div>
+				</div>
+			</div>
 		</li>
 		<li>
-			<p>Max UV index</p>
-			<p>${data.daily.uv_index_max[0]}</p>
-			<p>${uvMsg[0]}</p>
-			<p>${uvMsg[1]}</p>
+			<p class='label'>Max UV index</p>
+			<div class='iconAndTempFlex'>
+				<span class="material-symbols-outlined bigIcon">heat</span>
+				<div>
+					<p class="degree">${data.daily.uv_index_max[0]}</p>
+					<p>${uvMsg[0]}</p>
+					<div class='iconAndTempFlex'>${uvMsg[2]}</div>
+				</div>
+			</div>
 		</li>
 	`
 }
@@ -169,9 +184,9 @@ function willItRain(array){
 			}
 			output += hour
 		});
-		return output
+		return '<span class="material-symbols-outlined" id="rainicon">rainy</span>' + '<p>' + output + '</p>';
 	} else {
-		return 'No rain today'
+		return '<span class="material-symbols-outlined" id="rainicon">block</span><p>No rain today</p>'
 	}
 }
 
@@ -181,20 +196,25 @@ function calcUV(uv){
 	if (uv <= 2){
 		level = 'Low'
 		msg = 'No protection needed. You can safely stay outside using minimal sun protection.'
+		sunscreen = '<span class="material-symbols-outlined" id="rainicon">block</span><p>No protection needed</p>'
 	} else if (uv <= 5){
 		level = 'Moderate'
 		msg = 'Protection needed. Seek shade during late morning through mid-afternoon.'
+		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
 	} else if (uv <= 7){
 		level = 'High'
 		msg = 'Protection needed. Seek shade during late morning through mid-afternoon.'
+		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
 	}else if (uv <= 10){
 		level = 'Very high'
 		msg = 'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon.'
+		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
 	} else {
 		level = 'Extreme!'
 		msg = 'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon.'
+		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
 	}
-	return [level,msg]
+	return [level,msg,sunscreen]
 }
 
 
@@ -207,7 +227,7 @@ function setWeatherSticky(){
 	if (mql.matches){
 
 		const ypos = document.querySelector("header").offsetHeight + ( 24 * 1.618 * 2)+5;
-		console.log(ypos);
+		// console.log(ypos);
 
 		weather.style.position = "sticky";
 		weather.style.top = ypos + "px";
@@ -223,10 +243,12 @@ mql.addEventListener("change", function() {
 function loadWeather(){
 	getPosition()
 	.then((position) => {
-		console.log(position);
+		// console.log(position);
 		positionToLatLong(position);
-		getWeather();
 		getCity();
+	})
+	.then((position) => {
+		getWeather();
 	})
 	.catch((err) => {
 		console.error(err.message);
@@ -256,8 +278,9 @@ function getCity(position){
 	.then((response) => response.json())
 	.then((data) => {
 		console.log(data);
-		console.log(data.address.suburb);
-		console.log(data.address.city);
+		// console.log(data.address.suburb);
+		// console.log(data.address.city);
 		cityName = ` in ${data.address.suburb}, ${data.address.city}`
 	})
 }
+

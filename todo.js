@@ -32,21 +32,49 @@ function startGlobalTimer(){
 		let now = new Date();
 
 		//display in h1
-		document.getElementById('currentTime').innerHTML = now.getHours() + ':'+ now.getMinutes();
+		document.getElementById('currentTime').innerHTML = now.getHours() + ':'+ addZeroIfLessThan10(now.getMinutes());
 
 		// Find the distance between now and the count down date
 		let distance = timeEnd.getTime() - now.getTime();
 
+		//display coutdown
 		globalCountdown.innerHTML = millisecToDates(distance, displayTimeAsWords);
 
-		// If the count down is finished, write some text
-		if (distance < 0) {
-			clearInterval(timer);
-			document.getElementById('countdown-msg').innerHTML = 'You are late!'
+		// if time left is less than routine, show a warning
+		const warning = document.getElementById('warning');
+		if ( distance < totalRoutineTime() ){
+			if (currentMode == 'play'){
+				warning.innerHTML = 'Hurry up!'
+				warning.style.animation = 'blinker 1s step-start infinite'
+			} else {
+				warning.innerHTML = `Not enough time for routine`
+				warning.style.animation = 'none'
+			}
+		} else {
+			warning.innerHTML = '';
 		}
 
+		// If the count down is finished, write some text
+		if (distance < 0 ) {
+			clearInterval(timer);
+			if (currentMode == 'play'){
+				document.getElementById('global-countdown').innerHTML = 'You are late!'
+			} else {
+				//restart timer if not in play mode
+				startGlobalTimer()
+			}
+		}
 	}, 1000);
 }
+
+function addZeroIfLessThan10(num){
+	if (num >= 0 && num < 10){
+		return '0' + num
+	} else {
+		return num
+	}
+}
+
 function millisecToDates(millisec, callback){
 	// Time calculations for days, hours, minutes and seconds
 	let days = Math.floor(millisec / (1000 * 60 * 60 * 24));
@@ -56,6 +84,7 @@ function millisecToDates(millisec, callback){
 
 	return callback(days,hours,minutes,seconds);
 }
+
 function displayTimeAsWords(days,hours,minutes,seconds){
 		// Display the result
 		let output = '';
@@ -77,6 +106,7 @@ planTime.oninput = () => {
 	storePlanTime(planTime.value);
 	startGlobalTimer();
 }
+
 // Save to localStorage
 function storePlanTime(input) {
 	localStorage.setItem("planTimeStorage", input);
@@ -185,15 +215,10 @@ function displayTask(){
 			setTimeout(() => item.classList.add("dragging"), 0);
 			//remember the starting position
 			tempIndex = findIndex(item);
-			//cursor style
-			// document.documentElement.style.cursor = 'grabbing';
 		});
 		// Removing dragging class from item on dragend event
 		item.addEventListener("dragend", () => {
 			item.classList.remove("dragging")
-
-			//reset cursor style
-			// document.documentElement.style.cursor = '';
 
 			//also update the database array
 			//save the original
@@ -308,6 +333,7 @@ function startItemTimer(i){
 	//reset timer
 	clearInterval(itemTimer);
 
+	//when pressed the stop button, set all bars to 0
 	if (i == 'stop'){
 		Array.from(bars).forEach((bar) => {
 			bar.value = 0;
@@ -328,9 +354,13 @@ function startItemTimer(i){
 		startTimer(i,timeEnd,maxBarLength);
 	}
 }
+
 function startTimer(i, timeEnd, maxBarLength){
+
+	currentItem = i;
 	const lists = document.querySelectorAll('#todo-list li');
 	const list = document.querySelectorAll('#todo-list li')[i];
+
 	//timer
 	itemTimer = setInterval(function() {
 
@@ -374,28 +404,31 @@ function startTimer(i, timeEnd, maxBarLength){
 			}
 		};
 
+		//save time that already pass
+		let alreadyPass = maxBarLength - distance;
+		currentItem_timepassed = alreadyPass;
+
 		//pause
 		list.onclick = () => {
 			clearInterval(itemTimer);
-			// list.classList.remove('active');
 			list.classList.add('pause');
+			// console.log(maxBarLength)
+			// console.log(distance)
 
-			console.log(maxBarLength)
-			console.log(distance)
-			let alreadyPass = maxBarLength - distance;
-
+			//resume
 			list.onclick = () => {
-				// list.classList.add('active');
 				list.classList.remove('pause');
+
+				//calculate new endtime
 				let timeNow = new Date();
 				let timeEnd = new Date(timeNow.getTime() + todoItems[i].duration*60000 - alreadyPass)
-				console.log(timeEnd);
+				// console.log(timeEnd);
 				startTimer(i,timeEnd,maxBarLength)
 			}
 		}
 	}, 10);
 }
-	
+
 function displayTimeAsNumber(days,hours,minutes,seconds){
 		// Display the result
 		let output = '';
@@ -406,12 +439,39 @@ function displayTimeAsNumber(days,hours,minutes,seconds){
 			output += hours + ":"
 		}
 		output += minutes + ":"
-		if (seconds < 10) {
-			seconds = '0'+ seconds;
-		}
-		output += seconds;
+		output += addZeroIfLessThan10(seconds);
 		return output;
 }
+
+//========== total routine timer ==========
+let currentItem = -1;
+let currentItem_timepassed = 0;
+
+function totalRoutineTime(){
+
+	//caculate total routine time need
+	let routineTimeInMS = 0;
+	todoItems.forEach((item) =>{
+		routineTimeInMS += (item.duration)*60000;
+	})
+
+	//if in play mode, minus the time already pass
+	if (currentMode == 'play'){
+		// console.log('timepassed ' + currentItem_timepassed)
+		routineTimeInMS -= currentItem_timepassed;
+
+		//items that already passed
+		for (let i = 0; i < currentItem; i++) {
+			routineTimeInMS -= todoItems[i].duration*60000;
+		}
+	}
+
+	//also update on page
+	document.getElementById('routine-time').innerHTML = millisecToDates(routineTimeInMS, displayTimeAsWords);
+
+	return routineTimeInMS;
+}
+
 
 //========== modes ==========
 
@@ -427,14 +487,19 @@ stopBtn.onclick = () => {
 	startItemTimer('stop');
 	displayTask();
 	editMode();
+	startGlobalTimer();
 }
 
+let currentMode = 'edit';
 //play mode
 function playMode(){
+
+	currentMode = 'play';
 
 	//colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
+	document.documentElement.style.setProperty('--weather-bg-color', 'rgba(0, 0, 0, 0.05)');
 
 	//hide arrows & delete btn
 	document.querySelectorAll('.list-control').forEach(item => {
@@ -461,8 +526,12 @@ function playMode(){
 //edit mode
 function editMode(){
 
+	currentItem = -1;
+	currentMode = 'edit';
+
 	document.documentElement.style.setProperty('--bg-color', 'black');
 	document.documentElement.style.setProperty('--text-color', 'white');
+	document.documentElement.style.setProperty('--weather-bg-color', 'rgba(255, 255, 255, 0.1)');
 
 	document.querySelectorAll('.list-control').forEach(item => {
 		item.classList.remove("hidden");
@@ -476,6 +545,22 @@ function editMode(){
 	startBtn.classList.remove("hidden");
 	stopBtn.classList.add("hidden");
 }
+
+
+//========== greeting ==========
+function setGreeting(){
+		let now = new Date();
+		const greeting = document.getElementById('greeting');
+
+		if ( now.getHours() < 12 ) {
+			greeting.innerHTML = 'Good Morning'
+		} else if ( now.getHours() < 17 ){
+			greeting.innerHTML = 'Good Afternoon'
+		} else {
+			greeting.innerHTML = 'Good Evening'
+		}
+}
+
 
 //========== on load ==========
 
@@ -509,3 +594,4 @@ else {
 }
 
 startGlobalTimer();
+setGreeting();

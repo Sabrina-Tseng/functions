@@ -10,8 +10,11 @@
 :root {
 
 	/* font sizes */
+	--font-size-small: 16px;
 	--font-size: 24px;
-	--font-size-big: calc(var(--font-size)*2);
+	--font-size-big: calc(var(--font-size)*1.5);
+	--font-size-huge: calc(var(--font-size)*3);
+
 
 	/* gap sizes */
 	--gutter: calc(var(--font-size) * 1.618);
@@ -19,6 +22,8 @@
 	/* colors */
 	--bg-color: black;
 	--text-color: white;
+
+	--weather-bg-color: rgba(255, 255, 255, 0.1);
 
 	--list-color: white;
 	--list-text-color: black;
@@ -50,6 +55,7 @@ body {
 	font-family: "Montserrat", sans-serif;
 	font-optical-sizing: auto;
 	font-style: normal;
+	font-size: var(--font-size-small);
 }
 
 
@@ -103,19 +109,54 @@ body {
 header{
 	z-index: -1;
 }
+header p {
+	font-size: var(--font-size);
+	font-weight: 300;
+}
 h1 {
-	font-size: var(--font-size-big);
+	font-size: var(--font-size-huge);
 	font-weight: 200;
 }
 
-/* ==================== info ==================== */
+/* ==================== weather ==================== */
 
-/* weather */
 #weather {
 	display: flex;
 	flex-direction: column;
 	gap: calc(var(--gutter)/2);
 }
+
+#weather li{
+	padding: calc(var(--gutter)/2);;
+	background-color: var(--weather-bg-color);
+	border-radius: 10px;
+}
+
+#weather .label {
+	opacity: 50%;
+}
+
+.iconAndTempFlex{
+	display: flex;
+	flex-direction: row;
+	gap: calc(var(--gutter)/6);
+	align-items: center;
+}
+
+span.bigIcon {
+	font-size: calc(var(--font-size)*4);
+	font-variation-settings: 'wght' 100;
+}
+#rainicon {
+	font-size: var(--font-size-small);
+}
+
+#weather .degree {
+	font-size: var(--font-size-big); 
+	font-weight: 600;
+}
+
+
 
 /* ==================== todo list ==================== */
 #todo {
@@ -123,6 +164,50 @@ h1 {
 	flex-direction: column;
 	gap: var(--gutter);
 }
+
+/* message section */
+#msg-flex{
+	display: flex;
+	flex-direction: row;
+	/* height: calc(var(--gutter)*2); */
+	/* align-items: center; */
+	margin-top: calc(var(--gutter)/2);
+}
+#msg-flex>div:first-child{
+	width: 60%;
+}
+/* global count down */
+input {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+#plan-time {
+	/* font-size: var(--font-size-big);  */
+	font-weight: 600;
+}
+#countdown-msg, #routineTime-msg {
+	text-transform: uppercase;
+	font-size: var(--font-size-big); 
+	font-weight: 600;
+}
+#countdown-msg .label, #routineTime-msg .label{
+	font-size: var(--font-size-small); 
+	font-weight: 400;
+}
+
+/* warning */
+#warning{
+	color: orangered;
+	/* opacity: 0%; */
+	/* animation: blinker 1s step-start infinite; */
+}
+
+@keyframes blinker {
+50% {
+	opacity: 0;
+}
+}
+
+/* todo list */
 #todo-list {
 	display: flex;
 	flex-direction: column;
@@ -147,6 +232,7 @@ h1 {
 	justify-content: space-between;
 	align-items: center;
 }
+
 /* states */
 #todo-list li.active {
 	background-color: var(--list-color-active);
@@ -180,6 +266,7 @@ h1 {
 .right {
 	display: flex;
 }
+
 /* time left */
 .time-left {
 	display: flex;
@@ -269,9 +356,7 @@ button {
 	flex-direction: column;
 	gap: calc(var(--gutter)/2);
 }
-input {
-	background-color: rgba(0, 0, 0, 0.05);
-}
+
 .hidden {
 	display: none;
 }
