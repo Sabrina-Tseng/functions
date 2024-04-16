@@ -427,8 +427,12 @@ button {
 footer {
 	font-size: calc( var(--font-size) / 2 );
 	text-align: center;
-	position: fixed;
-	bottom: calc( var(--gutter) / 4 );
-	width: 100%;
 	z-index: -1;
+}
+@media (min-width: 768px) {
+	footer {
+		position: fixed;
+		text-align: left;
+		bottom: calc( var(--gutter));
+	}
 }
