@@ -136,8 +136,11 @@ function displayWeather(data){
 			</li>
 		</section>
 	`
-	document.getElementById('weather-mobile').onclick = () =>{
-		document.getElementById('weather-mobile').classList.toggle('open')
+	document.querySelector('#weather-mobile .min').onclick = () =>{
+		document.getElementById('weather-mobile').classList.add('open')
+	}
+	document.querySelector('#weather-mobile .max').onclick = () =>{
+		document.getElementById('weather-mobile').classList.remove('open')
 	}
 }
 

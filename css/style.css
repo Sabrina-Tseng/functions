@@ -120,7 +120,9 @@ h1 {
 }
 
 /* ==================== weather ==================== */
-
+#info{
+	z-index: 0;
+}
 #weather>section {
 	display: flex;
 	flex-direction: column;
@@ -220,11 +222,8 @@ span.bigIcon {
 	width: 60%;
 }
 /* global count down */
-input {
-	/* background-color: var(--translucent-bg-color); */
-	background-color: rgba(255, 255, 255, 0.1);
-}
 #plan-time {
+	background-color: rgba(255, 255, 255, 0.1);
 	font-weight: 600;
 	margin-left: calc(var(--gutter)/4);
 	padding: calc(var(--gutter)/4);
@@ -368,6 +367,12 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	}
 }
 
+/* text */
+.item-name{
+	font-weight: 600;
+	/* font-size: var(--font-size); */
+}
+
 /* progress bar */
 .progress-bar {
 	/* top-left | top-right | bottom-right | bottom-left */
@@ -394,10 +399,11 @@ progress::-webkit-progress-value {background-color: var(--bar-color) !important;
 /* buttons */
 .buttons {
 	display: flex;
-	flex-direction: var(--flexbox-display);
+	flex-direction: row;
 	gap: calc(var(--gutter)/2);
 }
 button {
+	z-index: 2;
 	display: block;
 	/* width: 100%; */
 	padding: calc(var(--gutter)/2);
@@ -418,6 +424,10 @@ button {
 	flex-direction: column;
 	gap: calc(var(--gutter)/2);
 }
+#add input {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
 
 .hidden {
 	display: none;

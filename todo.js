@@ -158,7 +158,7 @@ function displayTask(){
 			<li draggable='true'>
 				<div class='flex'>
 					<div>
-						<h3>${item.name}</h3>
+						<h3 class='item-name'>${item.name}</h3>
 						<p>${item.duration} minutes</p>
 					</div>
 					<div class='right'>
@@ -291,9 +291,18 @@ addButton.onclick = () => {
 				<label for="time">Duration</label><br>
 				<input type="number" id="time" name="time" min="1" required> minutes
 			</section>
-			<button type="submit">Add</button>
+			<section class='buttons'>
+				<button type="submit">Add</button>
+				<button id='close'>Cancel</button>
+			</section>
 		</form>
 	`
+	window.scrollTo(0, document.body.scrollHeight);
+	document.getElementById('close').onclick = () =>{
+		form.innerHTML = "";
+		addButton.classList.remove("hidden");
+	}
+
 	const addform =  document.getElementById('add-form');
 
 	//submit new task
@@ -391,11 +400,13 @@ function startTimer(i, timeEnd, maxBarLength){
 		//done
 		function done(){
 
+			clearInterval(itemTimer)
+			
 			pauseBtn.classList.add('hidden');
 			resumeBtn.classList.add('hidden');
 			skipBtn.classList.add('hidden');
 			currentItem = i+1;
-			
+
 			console.log('confetti!')
 			// confetti!
 			// https://www.kirilv.com/canvas-confetti/
