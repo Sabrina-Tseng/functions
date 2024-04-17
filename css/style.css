@@ -229,7 +229,11 @@ span.bigIcon {
 	width: 60%;
 }
 /* global count down */
+#countdown {
+	z-index: 2;
+}
 #plan-time {
+	
 	background-color: rgba(255, 255, 255, 0.1);
 	font-weight: 600;
 	margin-left: calc(var(--gutter)/4);
@@ -450,7 +454,7 @@ button {
 
 /* ==================== footer ==================== */
 footer {
-	font-size: calc( var(--font-size) / 2 );
+	font-size: calc( var(--font-size-small)*0.8 );
 	text-align: center;
 	z-index: -1;
 }
