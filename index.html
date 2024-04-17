@@ -27,52 +27,51 @@
 
 	</head>
 	<body>
-		<!-- <canvas width="1882" height="1986" style="position: fixed; top: 0px; left: 0px; width: calc(100%); height: calc(100%); margin: 0px; padding: 0px; z-index: 999999999; pointer-events: none;"></canvas> -->
-
-		<header class="margin">
-			<p><span id="greeting">Good Morning</span>👋</p>
-			<h1>It's now <span id="currentTime"></span></h1>
-		</header>
-
-		<main class="margin">
-			<section id="info">
-				<ol id="weather">
-					<p>Loading weather info...</p>
-				</ol>
-			</section>
-			<section id="todo">
-				<section id="countdown">
-					<form name="set-plan-time" id="set-plan-time">
-						<label for="plan-time">You plan to step out at</label>
-						<input type="time" id="plan-time" name="plan-time" required />
-					</form>
-					<section id="msg-flex">
-						<div id="countdown-msg">
-							<p class="label">Time left</p>
-							<p id="global-countdown"></p>
-							<p class="label" id="warning"> </p>
-						</div>
-						<div id="routineTime-msg">
-							<p class="label">Routine</p>
-							<p id="routine-time"></p>
-						</div>
+		<div>
+			<header class="margin">
+				<p><span id="greeting">Good Morning</span>👋</p>
+				<h1>It's now <span id="currentTime"></span></h1>
+			</header>
+			<main class="margin">
+				<section id="info">
+					<ol id="weather">
+						<p>Loading weather info...</p>
+					</ol>
+				</section>
+				<section id="todo">
+					<section id="countdown">
+						<form name="set-plan-time" id="set-plan-time">
+							<label for="plan-time">You plan to step out at</label>
+							<input type="time" id="plan-time" name="plan-time" required />
+						</form>
+						<section id="msg-flex">
+							<div id="countdown-msg">
+								<p class="label">Time left</p>
+								<p id="global-countdown"></p>
+								<p class="label" id="warning"> </p>
+							</div>
+							<div id="routineTime-msg">
+								<p class="label">Routine</p>
+								<p id="routine-time"></p>
+							</div>
+						</section>
+					</section>
+					<section class="buttons">
+						<button id="start-btn">▶ Start routine</button>
+						<button id="add-button"><span style="font-weight: 900;">+</span> Add New Task</button>
+						<button id="pause-btn" class="hidden">⏸ Pause</button>
+						<button id="resume-btn" class="hidden">▶ Resume</button>
+						<button id="skip-btn" class="hidden">⏭ skip</button>
+						<button id="stop-btn" class="hidden">⏹ Stop</button>
+					</section>
+					<ol id="todo-list">
+					</ol>
+					<section id="add">
+						<div id="form"></div>
 					</section>
 				</section>
-				<section class="buttons">
-					<button id="start-btn">▶ Start the morning routine</button>
-					<button id="add-button"><span style="font-weight: 900;">+</span> Add New Task</button>
-					<button id="pause-btn" class="hidden">⏸ Pause</button>
-					<button id="resume-btn" class="hidden">▶ Resume</button>
-					<button id="skip-btn" class="hidden">⏭ skip</button>
-					<button id="stop-btn" class="hidden">⏹ Stop</button>
-				</section>
-				<ol id="todo-list">
-				</ol>
-				<section id="add">
-					<div id="form"></div>
-				</section>
-			</section>
-		</main>
+			</main>
+		</div>
 
 		<footer class="margin">
 			<p>© Sabrina Tseng 2024</p>

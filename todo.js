@@ -170,9 +170,11 @@ function displayTask(){
 								<span class='up-arrow'>▲</span>
 								<span class='down-arrow'>▼</span>
 							</div>
-							<div class='no-space'>
-								<div class='delete'>
-									<span>✖</span>
+							<div class='no-x-space'>
+								<div>
+									<div class='delete'>
+										<span>✖</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -578,6 +580,7 @@ function playMode(){
 	});
 
 	//toggle buttons
+	addButton.classList.add("hidden");
 	startBtn.classList.add("hidden");
 	stopBtn.classList.remove("hidden");
 	pauseBtn.classList.remove("hidden");
@@ -603,6 +606,7 @@ function editMode(){
 		item.classList.add("hidden");
 	});
 
+	addButton.classList.remove("hidden");
 	startBtn.classList.remove("hidden");
 	stopBtn.classList.add("hidden");
 	pauseBtn.classList.add("hidden");

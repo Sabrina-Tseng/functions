@@ -85,12 +85,19 @@ body {
 html {
 	scroll-behavior: smooth;
 }
-body {
+body{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	/* align-items: center; */
+	min-height: 100vh;
+	padding-top: var(--gutter);
+	padding-bottom: var(--gutter);
+}
+body > div{
 	display: flex;
 	flex-direction: column;
 	gap: var(--gutter);
-	padding-top: var(--gutter);
-	padding-bottom: var(--gutter);
  }
  main {
 	display: flex;
@@ -264,11 +271,12 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 /* when finished */
 #todo-list>p{
 	font-size: var(--font-size);
-	font-weight: 600;
+	
 	/* color: orangered; */
 }
 #todo-list>p:first-child{
 	font-size: var(--font-size-huge);
+	font-weight: 600;
 	text-transform: uppercase;
 }
 
@@ -341,13 +349,19 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 }
 
 /* delete */
-.no-space {
+.no-x-space {
 	width: 0;
-	height: 0;
 }
-.delete {
+.no-x-space > div {
 	position: relative;
 	left: calc(var(--gutter)/2);
+	width: var(--gutter);
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.delete {
 	width: var(--gutter);
 	height: var(--gutter);
 	border-radius: 100px;
@@ -410,8 +424,7 @@ button {
 	background-color: var(--btn-color);
 	color: var(--btn-text-color);
 	border-radius: 100px;
-
-	font-weight: 600;
+	/* font-weight: 600; */
 }
 
 /* add new task */
