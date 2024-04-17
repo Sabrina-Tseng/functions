@@ -27,7 +27,7 @@
 
 	</head>
 	<body>
-		<canvas width="1882" height="1986" style="position: fixed; top: 0px; left: 0px; width: calc(100%); height: calc(100%); margin: 0px; padding: 0px; z-index: 999999999; pointer-events: none;"></canvas>
+		<!-- <canvas width="1882" height="1986" style="position: fixed; top: 0px; left: 0px; width: calc(100%); height: calc(100%); margin: 0px; padding: 0px; z-index: 999999999; pointer-events: none;"></canvas> -->
 
 		<header class="margin">
 			<p><span id="greeting">Good Morning</span>👋</p>
@@ -45,7 +45,6 @@
 					<form name="set-plan-time" id="set-plan-time">
 						<label for="plan-time">You plan to step out at</label>
 						<input type="time" id="plan-time" name="plan-time" required />
-						<!-- <button id="start-button" type="submit">Start</button> -->
 					</form>
 					<section id="msg-flex">
 						<div id="countdown-msg">
@@ -59,13 +58,16 @@
 						</div>
 					</section>
 				</section>
-				<div>
-					<button id="start-routine">Start Routine</button>
-					<button id="stop-routine" class="hidden">Stop Routine</button>
-				</div>
+				<section class="buttons">
+					<button id="start-btn">▶ Start the morning routine</button>
+					<button id="pause-btn" class="hidden">⏸ Pause</button>
+					<button id="resume-btn" class="hidden">▶ Resume</button>
+					<button id="skip-btn" class="hidden">⏭ skip</button>
+					<button id="stop-btn" class="hidden">⏹ Stop</button>
+				</section>
 				<ol id="todo-list">
 				</ol>
-				<section id="buttons">
+				<section id="add">
 					<button id="add-button">+ Add New Task</button>
 					<div id="form"></div>
 				</section>

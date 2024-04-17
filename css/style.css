@@ -271,7 +271,6 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 #todo-list>p:first-child{
 	font-size: var(--font-size-huge);
 	text-transform: uppercase;
-
 }
 
 #todo-list li {
@@ -325,9 +324,6 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	cursor: grabbing;
 }
 
-.right {
-	display: flex;
-}
 
 /* time left */
 .time-left {
@@ -395,8 +391,8 @@ progress::-webkit-progress-bar {background-color: var(--bar-bg-color); width: 10
 /* bar color */
 progress::-webkit-progress-value {background-color: var(--bar-color) !important;}
 
-/* add new task */
-#buttons {
+/* buttons */
+.buttons {
 	display: flex;
 	flex-direction: var(--flexbox-display);
 	gap: calc(var(--gutter)/2);
@@ -408,7 +404,11 @@ button {
 	background-color: var(--btn-color);
 	color: var(--btn-text-color);
 	border-radius: 100px;
+
+	font-weight: 600;
 }
+
+/* add new task */
 #add-form {
 	padding: var(--gutter);
 	background-color: var(--list-color);

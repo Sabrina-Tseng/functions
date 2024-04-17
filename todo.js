@@ -118,8 +118,11 @@ function storePlanTime(input) {
 const dotolist = document.getElementById('todo-list');
 const form =  document.getElementById('form');
 const addButton = document.getElementById('add-button');
-const startBtn = document.getElementById('start-routine');
-const stopBtn = document.getElementById('stop-routine');
+const startBtn = document.getElementById('start-btn');
+const pauseBtn = document.getElementById('pause-btn');
+const resumeBtn = document.getElementById('resume-btn');
+const skipBtn = document.getElementById('skip-btn');
+const stopBtn = document.getElementById('stop-btn');
 
 //set up swap method
 Array.prototype.swap = function(a, b) {
@@ -277,7 +280,6 @@ addButton.onclick = () => {
 
 	//hide add button
 	addButton.classList.add("hidden");
-	// startBtn.classList.add("hidden");
 
 	//show add form
 	//for, id, and name should match
@@ -309,7 +311,6 @@ addButton.onclick = () => {
 			//hide add form and show add button
 			form.innerHTML = "";
 			addButton.classList.remove("hidden");
-			startBtn.classList.remove("hidden");
 		};
 	};
 };
@@ -383,19 +384,33 @@ function startTimer(i, timeEnd, maxBarLength){
 			if( i < todoItems.length-1 ) {
 				startItemTimer(i+1);
 			} else {
-				console.log('confetti!')
-				// confetti!
-				// https://www.kirilv.com/canvas-confetti/
-				confetti({
-					spread: 180
-				});
-
-				document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
+				done();
 			}
+		}
+
+		//done
+		function done(){
+
+			pauseBtn.classList.add('hidden');
+			resumeBtn.classList.add('hidden');
+			skipBtn.classList.add('hidden');
+			currentItem = i+1;
+			
+			console.log('confetti!')
+			// confetti!
+			// https://www.kirilv.com/canvas-confetti/
+			confetti({
+				spread: 180
+			});
+
+			document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
 		}
 
 		//skip
 		for ( let clickedlist in lists ) {
+
+			pauseBtn.classList.remove('hidden');
+			resumeBtn.classList.add('hidden');
 
 			//if it's not the current active list, add the click to skip action
 			if (clickedlist != i) {
@@ -413,21 +428,41 @@ function startTimer(i, timeEnd, maxBarLength){
 				}
 			}
 		};
+		skipBtn.onclick = () => {
+			lists[i].classList.add('past');
+
+			if( i < todoItems.length-1 ) {
+				startItemTimer(i+1);
+			} else {
+				done();
+			}
+		}
 
 		//save time that already pass
 		let alreadyPass = maxBarLength - distance;
 		currentItem_timepassed = alreadyPass;
 
 		//pause
-		list.onclick = () => {
+		list.onclick = () => pause()
+		pauseBtn.onclick = () => pause()
+
+		function pause(){
 			clearInterval(itemTimer);
 			list.classList.add('pause');
+			pauseBtn.classList.add('hidden');
+			resumeBtn.classList.remove('hidden');
+
 			// console.log(maxBarLength)
 			// console.log(distance)
 
 			//resume
-			list.onclick = () => {
+			list.onclick = () => resume()
+			resumeBtn.onclick = () => resume()
+
+			function resume(){
 				list.classList.remove('pause');
+				pauseBtn.classList.remove('hidden');
+				resumeBtn.classList.add('hidden');
 
 				//calculate new endtime
 				let timeNow = new Date();
@@ -513,7 +548,7 @@ function playMode(){
 	//colors
 	document.documentElement.style.setProperty('--bg-color', 'white');
 	document.documentElement.style.setProperty('--text-color', 'black');
-	document.documentElement.style.setProperty('--translucent-bg-color', 'rgba(0, 0, 0, 0.05)');
+	document.documentElement.style.setProperty('--translucent-bg-color', 'rgba(0, 0, 0, 0.03)');
 
 	//hide arrows & delete btn
 	document.querySelectorAll('.list-control').forEach(item => {
@@ -532,9 +567,11 @@ function playMode(){
 	});
 
 	//toggle buttons
-	addButton.classList.add("hidden");
 	startBtn.classList.add("hidden");
 	stopBtn.classList.remove("hidden");
+	pauseBtn.classList.remove("hidden");
+	skipBtn.classList.remove("hidden");
+	document.getElementById('add').classList.add("hidden");
 }
 
 //edit mode
@@ -555,9 +592,12 @@ function editMode(){
 		item.classList.add("hidden");
 	});
 
-	addButton.classList.remove("hidden");
 	startBtn.classList.remove("hidden");
 	stopBtn.classList.add("hidden");
+	pauseBtn.classList.add("hidden");
+	resumeBtn.classList.add("hidden");
+	skipBtn.classList.add("hidden");
+	document.getElementById('add').classList.remove("hidden");
 }
 
 
