@@ -279,7 +279,7 @@ function findIndex(li)
 addButton.onclick = () => {
 
 	//hide add button
-	addButton.classList.add("hidden");
+	// addButton.classList.add("hidden");
 
 	//show add form
 	//for, id, and name should match
