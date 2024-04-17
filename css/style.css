@@ -417,9 +417,11 @@ progress::-webkit-progress-value {background-color: var(--bar-color) !important;
 	gap: calc(var(--gutter)/2);
 }
 button {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	
 	z-index: 2;
-	display: block;
-	/* width: 100%; */
 	padding: calc(var(--gutter)/2);
 	background-color: var(--btn-color);
 	color: var(--btn-text-color);
