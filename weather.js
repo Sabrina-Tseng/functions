@@ -100,42 +100,43 @@ function displayWeather(data){
 				</section>
 			</li>
 		</section>
-		<section id='weather-desktop'>
-			<li>
-				<p class='label'>Currently${cityName}</p>
-				<div class='iconAndTempFlex'>
-					<span class="material-symbols-outlined bigIcon">${icon}</span>
-					<div>
-						<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
-						<p>${currentWeather}</p>
-						<p>Feels like ${data.current.apparent_temperature}&nbsp;${data.current_units.apparent_temperature}</p>
-					</div>
-				</div>
-			</li>
-			<li>
-				<p class='label'>Today</p>
-				<div class='iconAndTempFlex'>
-					<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
-					<div>
-						<p class="degree">${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
-						<p>${todayWeather}</p>
-						<div class='iconAndTempFlex'>${willRain}</div>
-					</div>
-				</div>
-			</li>
-			<li>
-				<p class='label'>Max UV index</p>
-				<div class='iconAndTempFlex'>
-					<span class="material-symbols-outlined bigIcon">heat</span>
-					<div>
-						<p class="degree">${data.daily.uv_index_max[0]}</p>
-						<p>${uvMsg[0]}</p>
-						<div class='iconAndTempFlex'>${uvMsg[2]}</div>
-					</div>
-				</div>
-			</li>
-		</section>
-	`
+		`
+		// <section id='weather-desktop'>
+		// 	<li>
+		// 		<p class='label'>Currently${cityName}</p>
+		// 		<div class='iconAndTempFlex'>
+		// 			<span class="material-symbols-outlined bigIcon">${icon}</span>
+		// 			<div>
+		// 				<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
+		// 				<p>${currentWeather}</p>
+		// 				<p>Feels like ${data.current.apparent_temperature}&nbsp;${data.current_units.apparent_temperature}</p>
+		// 			</div>
+		// 		</div>
+		// 	</li>
+		// 	<li>
+		// 		<p class='label'>Today</p>
+		// 		<div class='iconAndTempFlex'>
+		// 			<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
+		// 			<div>
+		// 				<p class="degree">${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
+		// 				<p>${todayWeather}</p>
+		// 				<div class='iconAndTempFlex'>${willRain}</div>
+		// 			</div>
+		// 		</div>
+		// 	</li>
+		// 	<li>
+		// 		<p class='label'>Max UV index</p>
+		// 		<div class='iconAndTempFlex'>
+		// 			<span class="material-symbols-outlined bigIcon">heat</span>
+		// 			<div>
+		// 				<p class="degree">${data.daily.uv_index_max[0]}</p>
+		// 				<p>${uvMsg[0]}</p>
+		// 				<div class='iconAndTempFlex'>${uvMsg[2]}</div>
+		// 			</div>
+		// 		</div>
+		// 	</li>
+		// </section>
+		
 	document.querySelector('#weather-mobile .min').onclick = () =>{
 		document.getElementById('weather-mobile').classList.add('open')
 	}
@@ -251,23 +252,23 @@ function willItRain(array){
 function calcUV(uv){
 	let level;
 	let msg;
-	if (uv <= 2){
+	if (uv < 3){ //1-2
 		level = 'Low'
 		msg = 'No protection needed. You can safely stay outside using minimal sun protection.'
 		sunscreen = '<span class="material-symbols-outlined" id="rainicon">block</span><p>No protection needed</p>'
-	} else if (uv <= 5){
+	} else if (uv < 6){ //3-5
 		level = 'Moderate'
 		msg = 'Protection needed. Seek shade during late morning through mid-afternoon.'
 		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
-	} else if (uv <= 7){
+	} else if (uv < 8){ //6-7
 		level = 'High'
 		msg = 'Protection needed. Seek shade during late morning through mid-afternoon.'
 		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
-	}else if (uv <= 10){
+	}else if (uv < 11){ //8-10
 		level = 'Very high'
 		msg = 'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon.'
 		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'
-	} else {
+	} else { //11+
 		level = 'Extreme!'
 		msg = 'Extra protection needed. Be careful outside, especially during late morning through mid-afternoon.'
 		sunscreen = '<span class="material-symbols-outlined" id="rainicon">sanitizer</span><p>Wear sunscreen</p>'

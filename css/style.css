@@ -11,9 +11,9 @@
 
 	/* font sizes */
 	--font-size-small: 16px;
-	--font-size: 16px;
+	--font-size: 18px;
 	--font-size-big: calc(var(--font-size)*1.5);
-	--font-size-huge: calc(var(--font-size)*3);
+	--font-size-huge: calc(var(--font-size)*2.5);
 
 
 	/* gap sizes */
@@ -40,10 +40,16 @@
 	--flexbox-display: column;
 }
 @media (min-width: 480px) {
-	:root { --font-size: 18px }
+	:root { 
+		--font-size: 18px;
+		--font-size-huge: calc(var(--font-size)*3);
+	}
 }
 @media (min-width: 1024px) {
-	:root { --font-size: 24px }
+	:root { 
+		--font-size: 24px ;
+		--font-size-huge: calc(var(--font-size)*3)
+	}
 }
 @media (min-width: 768px) {
 	:root { --flexbox-display: row; }
@@ -99,13 +105,13 @@ body > div{
 	flex-direction: column;
 	gap: var(--gutter);
  }
- main {
+main {
 	display: flex;
 	flex-direction: var(--flexbox-display);
 	gap: var(--gutter);
  }
 
- @media (min-width: 768px) {
+@media (min-width: 768px) {
 	main > section { width: 50%; }
 	header {
 		position: sticky;
@@ -129,11 +135,14 @@ h1 {
 /* ==================== weather ==================== */
 #info{
 	z-index: 0;
+	width: auto;
+	margin-right: auto;
+	min-width:  calc(var(--gutter)*6);;
 }
 #weather>section {
 	display: flex;
 	flex-direction: column;
-	gap: calc(var(--gutter)/2);
+	gap: calc(var(--gutter));
 }
 
 #weather li{
@@ -141,6 +150,13 @@ h1 {
 	background-color: var(--translucent-bg-color);
 	border-radius: 10px;
 }
+/* @media (max-width: 768px) {
+	#weather li{
+		padding: calc(var(--gutter)/2);;
+		background-color: var(--translucent-bg-color);
+		border-radius: 10px;
+	}
+} */
 
 #weather .label {
 	opacity: 50%;
@@ -163,18 +179,18 @@ span.bigIcon {
 
 #weather .degree {
 	font-size: var(--font-size-big); 
-	font-weight: 600;
+	font-weight: 500;
 }
 
 /* mobile */
 #weather #weather-mobile{
-	display: none; 
+	/* display: none;  */
 }
 
-@media (max-width: 768px){
-	#weather #weather-desktop{
+/* @media (max-width: 768px){ */
+	/* #weather #weather-desktop{
 		display: none; 
-	}
+	} */
 	#weather #weather-mobile{
 		display: flex; 
 	}
@@ -193,6 +209,7 @@ span.bigIcon {
 		flex-direction: row;
 		align-items: center;
 		justify-content: space-between;
+		/* gap:  calc(var(--gutter)/2); */
 		height: 100%;
 	}
 	#weather-mobile.open section.max{
@@ -208,7 +225,8 @@ span.bigIcon {
 		height: 0px;
 		opacity: 0%;
 	}
-}
+/* } */
+
 /* ==================== todo ==================== */
 #todo {
 	display: flex;
@@ -233,8 +251,9 @@ span.bigIcon {
 	z-index: 2;
 }
 #plan-time {
-	
-	background-color: rgba(255, 255, 255, 0.1);
+	background-color: rgba(255, 255, 255, 0.15);
+	/* background-color: orange; */
+	/* color: black; */
 	font-weight: 600;
 	margin-left: calc(var(--gutter)/4);
 	padding: calc(var(--gutter)/4);
@@ -252,12 +271,13 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 #countdown-msg .label, #routineTime-msg .label{
 	font-size: var(--font-size-small); 
 	font-weight: 400;
+	opacity: 50%;
 }
 
 /* warning */
 #warning{
 	color: orangered;
-	/* opacity: 0%; */
+	opacity: 100%;
 	/* animation: blinker 1s step-start infinite; */
 }
 
@@ -275,7 +295,6 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 /* when finished */
 #todo-list>p{
 	font-size: var(--font-size);
-	
 	/* color: orangered; */
 }
 #todo-list>p:first-child{
@@ -335,7 +354,9 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	cursor: grabbing;
 }
 
-
+/* .right {
+	display: flex;
+} */
 /* time left */
 .time-left {
 	display: flex;
@@ -390,6 +411,9 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	font-weight: 600;
 	/* font-size: var(--font-size); */
 }
+.item-duration{
+	opacity: 50%;
+}
 
 /* progress bar */
 .progress-bar {
@@ -426,7 +450,8 @@ button {
 	align-items: center;
 	
 	z-index: 2;
-	padding: calc(var(--gutter)/2);
+	padding: calc(var(--gutter)/3);
+	padding-right: calc(var(--gutter)/2);
 	background-color: var(--btn-color);
 	color: var(--btn-text-color);
 	border-radius: 100px;

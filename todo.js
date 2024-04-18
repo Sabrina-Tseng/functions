@@ -159,9 +159,9 @@ function displayTask(){
 				<div class='flex'>
 					<div>
 						<h3 class='item-name'>${item.name}</h3>
-						<p>${item.duration} minutes</p>
+						<p class='item-duration'>${item.duration} minutes</p>
 					</div>
-					<div class='right'>
+					<div>
 						<div class='time-left hidden'>
 							<p>${item.duration}:00</p>
 						</div>
