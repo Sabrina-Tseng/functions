@@ -67,40 +67,6 @@ function startGlobalTimer(){
 	}, 1000);
 }
 
-function addZeroIfLessThan10(num){
-	if (num >= 0 && num < 10){
-		return '0' + num
-	} else {
-		return num
-	}
-}
-
-function millisecToDates(millisec, callback){
-	// Time calculations for days, hours, minutes and seconds
-	let days = Math.floor(millisec / (1000 * 60 * 60 * 24));
-	let hours = Math.floor((millisec % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-	let minutes = Math.floor((millisec % (1000 * 60 * 60)) / (1000 * 60));
-	let seconds = Math.floor((millisec % (1000 * 60)) / 1000);
-
-	return callback(days,hours,minutes,seconds);
-}
-
-function displayTimeAsWords(days,hours,minutes,seconds){
-		// Display the result
-		let output = '';
-		if (days != 0) {
-			output += days + "d "
-		}
-		if (hours != 0) {
-			output += hours + "h "
-		}
-		if (minutes != 0) {
-			output += minutes + "m "
-		}
-		output += seconds + "s ";
-		return output;
-}
-
 //when changed, save in localstorage and start the timer wit the new time
 planTime.oninput = () => {
 	storePlanTime(planTime.value);
@@ -123,13 +89,6 @@ const pauseBtn = document.getElementById('pause-btn');
 const resumeBtn = document.getElementById('resume-btn');
 const skipBtn = document.getElementById('skip-btn');
 const stopBtn = document.getElementById('stop-btn');
-
-//set up swap method
-Array.prototype.swap = function(a, b) {
-	var temp = this[a];
-	this[a] = this[b];
-	this[b] = temp;
-};
 
 //object constructor
 class task {
@@ -287,15 +246,22 @@ addButton.onclick = () => {
 	//for, id, and name should match
 	form.innerHTML = `
 		<form name="add-form" id="add-form">
-			<section>
-				<label for="task">Task</label><br>
-				<input type="text" id="task" name="task" required><br>
-				<label for="time">Duration</label><br>
-				<input type="number" id="time" name="time" min="1" required> minutes
+			<div id='form-title'>
+				<p>Add a new task</p><span id='close' class="material-symbols-outlined">close</span>
+			</div>
+			<section id='input-box'>
+				<div>
+					<input type="text" id="task" name="task" required>
+					<label for="task">Task Name</label>
+				</div>
+				<div>
+					<input type="number" id="time" name="time" min="1" required> 
+					<label for="time">Duration (min)</label>
+				</div>
 			</section>
+
 			<section class='buttons'>
 				<button type="submit">Add</button>
-				<button id='close'>Cancel</button>
 			</section>
 		</form>
 	`
@@ -404,19 +370,44 @@ function startTimer(i, timeEnd, maxBarLength){
 
 			clearInterval(itemTimer)
 			
-			pauseBtn.classList.add('hidden');
-			resumeBtn.classList.add('hidden');
-			skipBtn.classList.add('hidden');
-			currentItem = i+1;
+			// pauseBtn.classList.add('hidden');
+			// resumeBtn.classList.add('hidden');
+			// skipBtn.classList.add('hidden');
+			// currentItem = i+1;
+
+			const endingOverlay = document.getElementById('ending-overlay')
+			endingOverlay.innerHTML = `
+				<p>Well done!</p>
+				<p>You've completed all of your tasks.</p>
+				<button id='done-back'><span class="material-symbols-outlined"> arrow_back </span>Back to To-Do list</button>`
+
+			endingOverlay.classList.add('active')
+			endingOverlay.style.opacity='100%'
+
 
 			console.log('confetti!')
 			// confetti!
 			// https://www.kirilv.com/canvas-confetti/
 			confetti({
-				spread: 180
+				particleCount: 100,
+				spread: 70,
+				origin: { y: 0.6 },
+				colors: ['000000', 'FFA500']
 			});
 
-			document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
+			// document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
+
+			document.getElementById('done-back').onclick = () => {
+				endingOverlay.innerHTML = '';
+				endingOverlay.classList.remove('active');
+				endingOverlay.style.opacity='0%'
+
+				startItemTimer('stop');
+				displayTask();
+				editMode();
+				startGlobalTimer();
+			}
+
 		}
 
 		//skip
@@ -487,19 +478,6 @@ function startTimer(i, timeEnd, maxBarLength){
 	}, 10);
 }
 
-function displayTimeAsNumber(days,hours,minutes,seconds){
-		// Display the result
-		let output = '';
-		if (days != 0) {
-			output += days + "d "
-		}
-		if (hours != 0) {
-			output += hours + ":"
-		}
-		output += minutes + ":"
-		output += addZeroIfLessThan10(seconds);
-		return output;
-}
 
 //========== total routine timer ==========
 let currentItem = -1;
