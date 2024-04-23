@@ -50,21 +50,20 @@ function displayWeather(data){
 	let uvMsg = calcUV(data.daily.uv_index_max[0]);
 
 	weather.innerHTML = `
-		<section id='weather-mobile'>
-			<li>
+		<div>
+			<div>
 				<section class='min'>
-					<div class='iconAndTempFlex'>
+					<li class='iconAndTempFlex'>
 						<span class="material-symbols-outlined bigIcon">${icon}</span>
 						<div>
 							<p class="degree">${data.current.temperature_2m}&nbsp;${data.current_units.temperature_2m}</p>
 							<p>${data.daily.temperature_2m_min[0]}&nbsp;${data.daily_units.temperature_2m_min} – ${data.daily.temperature_2m_max[0]}&nbsp;${data.daily_units.temperature_2m_max}</p>
 							<div class='iconAndTempFlex'>${willRain}</div>
 						</div>
-					</div>
-					<span class="material-symbols-outlined">keyboard_arrow_down</span>
+					</li>
 				</section>
 				<section class='max'>
-					<div>
+					<li>
 						<p class='label'>Currently${cityName}</p>
 						<div class='iconAndTempFlex'>
 							<span class="material-symbols-outlined bigIcon">${icon}</span>
@@ -74,8 +73,8 @@ function displayWeather(data){
 								<p>Feels like ${data.current.apparent_temperature}&nbsp;${data.current_units.apparent_temperature}</p>
 							</div>
 						</div>
-					</div>
-					<div>
+					</li>
+					<li>
 						<p class='label'>Today</p>
 						<div class='iconAndTempFlex'>
 							<span class="material-symbols-outlined bigIcon">${todayIcon}</span>
@@ -85,8 +84,8 @@ function displayWeather(data){
 								<div class='iconAndTempFlex'>${willRain}</div>
 							</div>
 						</div>
-					</div>
-					<div>
+					</li>
+					<li>
 						<p class='label'>Max UV index</p>
 						<div class='iconAndTempFlex'>
 							<span class="material-symbols-outlined bigIcon">heat</span>
@@ -96,11 +95,14 @@ function displayWeather(data){
 								<div class='iconAndTempFlex'>${uvMsg[2]}</div>
 							</div>
 						</div>
-					</div>
+					</li>
 				</section>
-			</li>
-		</section>
+			</div>
+			<span class="material-symbols-outlined">keyboard_arrow_down</span>
+		</div>
 		`
+		//
+
 		// <section id='weather-desktop'>
 		// 	<li>
 		// 		<p class='label'>Currently${cityName}</p>
@@ -137,11 +139,8 @@ function displayWeather(data){
 		// 	</li>
 		// </section>
 		
-	document.querySelector('#weather-mobile .min').onclick = () =>{
-		document.getElementById('weather-mobile').classList.add('open')
-	}
-	document.querySelector('#weather-mobile .max').onclick = () =>{
-		document.getElementById('weather-mobile').classList.remove('open')
+	document.querySelector('#weather').onclick = () =>{
+		document.getElementById('weather').classList.toggle('open')
 	}
 }
 

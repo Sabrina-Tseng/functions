@@ -133,35 +133,78 @@ h1 {
 }
 
 /* ==================== weather ==================== */
+/* structure */
 #info{
 	z-index: 0;
-	width: auto;
-	margin-right: auto;
-	min-width:  calc(var(--gutter)*6);;
+	/* width: auto; */
 }
-#weather>section {
+@media (min-width: 768px) {
+	#info{
+		width: auto;
+		margin-right: auto;
+		min-width: calc(var(--gutter)*10);;
+	}
+}
+/* flexbox weatherinfo and arrow */
+#weather > div{
 	display: flex;
-	flex-direction: column;
-	gap: calc(var(--gutter));
-}
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
 
-#weather li{
 	padding: calc(var(--gutter)/2);;
 	background-color: var(--translucent-bg-color);
 	border-radius: 10px;
-}
-/* @media (max-width: 768px) {
-	#weather li{
-		padding: calc(var(--gutter)/2);;
-		background-color: var(--translucent-bg-color);
-		border-radius: 10px;
-	}
-} */
 
+	cursor: pointer;
+}
+
+/* arrow */
+#weather > div > span{
+	align-self: flex-start;
+	margin-top: var(--gutter);
+	transition: 1s;
+	font-size: var(--font-size-big);
+}
+#weather.open > div > span{
+	transform: rotate(180deg);
+}
+
+/* open & close */
+#weather > div > div{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	height: calc(var(--gutter)*3);
+	transition: 1s;
+
+	overflow: hidden;
+}
+#weather.open > div > div{
+	height: calc(var(--gutter)*11);
+}
+
+#weather section{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	transition: 1s;
+	height: auto;
+	gap: calc(var(--gutter)/2);
+}
+#weather.open section.max{
+	opacity: 100%;
+	height: 100%;
+}
+#weather.open section.min, #weather section.max{
+	height: 0px;
+	opacity: 0%;
+}
+
+/* format */
 #weather .label {
 	opacity: 50%;
 }
-
 .iconAndTempFlex{
 	display: flex;
 	flex-direction: row;
@@ -181,51 +224,6 @@ span.bigIcon {
 	font-size: var(--font-size-big); 
 	font-weight: 500;
 }
-
-/* mobile */
-#weather #weather-mobile{
-	/* display: none;  */
-}
-
-/* @media (max-width: 768px){ */
-	/* #weather #weather-desktop{
-		display: none; 
-	} */
-	#weather #weather-mobile{
-		display: flex; 
-	}
-	#weather-mobile li{
-		transition: 1s;
-		height: calc(var(--gutter)*4);
-	}
-	#weather-mobile.open li{
-		height: calc(var(--gutter)*13);
-	}
-	#weather-mobile section {
-		transition: 1s;
-	}
-	#weather-mobile section.min{
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-between;
-		gap:  var(--gutter);
-		height: 100%;
-	}
-	#weather-mobile.open section.max{
-		display: flex; 
-		flex-direction: column;
-		gap: calc(var(--gutter)/2);
-		opacity: 100%;
-		justify-content: center;
-		height: 100%;
-	}
-	#weather-mobile.open section.min, #weather-mobile section.max{
-		/* display: none;  */
-		height: 0px;
-		opacity: 0%;
-	}
-/* } */
 
 /* ==================== todo ==================== */
 #todo {
@@ -363,6 +361,8 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 .time-left {
 	display: flex;
 	align-items: center;
+	font-weight: 300;
+	font-size: var(--font-size);
 }
 
 /* arrow */
