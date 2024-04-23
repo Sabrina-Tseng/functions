@@ -408,13 +408,13 @@ function startTimer(i, timeEnd, maxBarLength){
 		//skip
 		for ( let clickedlist in lists ) {
 
-			// pauseBtn.classList.remove('hidden');
-			// resumeBtn.classList.add('hidden');
-
 			//if it's not the current active list, add the click to skip action
 			if (clickedlist != i) {
 
 				lists[clickedlist].onclick = () => {
+
+					pauseBtn.classList.remove('hidden');
+					resumeBtn.classList.add('hidden');
 					
 					//go through the list again and set past the one before
 					for ( let listnum in lists ){
@@ -428,6 +428,9 @@ function startTimer(i, timeEnd, maxBarLength){
 			}
 		};
 		skipBtn.onclick = () => {
+
+			pauseBtn.classList.remove('hidden');
+			resumeBtn.classList.add('hidden');
 
 			const nextlist = parseInt(i)+1
 			lists[i].classList.add('past');
