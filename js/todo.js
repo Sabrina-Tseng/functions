@@ -259,10 +259,7 @@ addButton.onclick = () => {
 					<label for="time">Duration (min)</label>
 				</div>
 			</section>
-
-			<section class='buttons'>
 				<button type="submit">Add</button>
-			</section>
 		</form>
 	`
 	window.scrollTo(0, document.body.scrollHeight);
@@ -395,8 +392,7 @@ function startTimer(i, timeEnd, maxBarLength){
 				colors: ['000000', 'FFA500']
 			});
 
-			// document.getElementById('todo-list').innerHTML = `<p>Well done! </p><p>You've completed all of your routine tasks.</p>`
-
+			// reset btn
 			document.getElementById('done-back').onclick = () => {
 				endingOverlay.innerHTML = '';
 				endingOverlay.classList.remove('active');
@@ -407,14 +403,13 @@ function startTimer(i, timeEnd, maxBarLength){
 				editMode();
 				startGlobalTimer();
 			}
-
 		}
 
 		//skip
 		for ( let clickedlist in lists ) {
 
-			pauseBtn.classList.remove('hidden');
-			resumeBtn.classList.add('hidden');
+			// pauseBtn.classList.remove('hidden');
+			// resumeBtn.classList.add('hidden');
 
 			//if it's not the current active list, add the click to skip action
 			if (clickedlist != i) {
@@ -433,10 +428,12 @@ function startTimer(i, timeEnd, maxBarLength){
 			}
 		};
 		skipBtn.onclick = () => {
+
+			const nextlist = parseInt(i)+1
 			lists[i].classList.add('past');
 
 			if( i < todoItems.length-1 ) {
-				startItemTimer(i+1);
+				startItemTimer(nextlist);
 			} else {
 				done();
 			}
@@ -546,10 +543,10 @@ function playMode(){
 		item.classList.add("hidden");
 	});
 
-	//not draggble
+	//cursor
 	document.querySelectorAll('#todo li').forEach(item => {
 		item.setAttribute('draggable', false);
-		item.style.cursor = 'auto';
+		item.style.cursor = 'pointer';
 	});
 
 	//show timer number

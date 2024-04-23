@@ -354,9 +354,6 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	cursor: grabbing;
 }
 
-/* .right {
-	display: flex;
-} */
 /* time left */
 .time-left {
 	display: flex;
@@ -376,6 +373,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	gap: calc( var(--gutter)/6 );
 	font-size: var(--font-size-small);
 	opacity: 25%;
+	cursor: pointer;
 }
 
 /* delete */
@@ -400,6 +398,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	cursor: pointer;
 }
 @media (hover: hover){
 	.delete {
@@ -461,6 +460,8 @@ button {
 	color: var(--btn-text-color);
 	border-radius: 100px;
 	/* font-weight: 600; */
+
+	cursor: pointer;
 }
 
 /* ------ add new task ------ */

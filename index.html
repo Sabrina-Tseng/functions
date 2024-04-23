@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Morning Routine Coach</title>
+		<title>Morning Routine Timer</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="css/reset.css">
@@ -29,23 +29,26 @@
 
 	</head>
 	<body>
+		<!-- empty ending overlay -->
 		<div id="ending-overlay">
-			<!-- <p>Well done!</p>
-			<p>You've completed all of your routine tasks.</p>
-			<button><span class="material-symbols-outlined"> arrow_back </span>Go Back</button> -->
 		</div>
 		<div>
+			<!-- header -->
 			<header class="margin">
 				<p><span id="greeting">Good Morning</span>👋</p>
 				<h1>It's now <span id="currentTime"></span></h1>
 			</header>
 			<main class="margin">
+				<!-- left side info -->
 				<section id="info">
+					<!-- weather -->
 					<ol id="weather">
 						<p>Loading weather info...</p>
 					</ol>
 				</section>
+				<!-- right side todo list -->
 				<section id="todo">
+					<!-- timers -->
 					<section id="countdown">
 						<form name="set-plan-time" id="set-plan-time">
 							<label for="plan-time">You plan to step out at</label>
@@ -63,6 +66,7 @@
 						</section>
 						<p class="label" id="warning"> </p>
 					</section>
+					<!-- control btns -->
 					<section class="buttons">
 						<button id="start-btn"><span class="material-symbols-outlined">play_arrow</span> Start routine</button>
 						<button id="add-button"><span class="material-symbols-outlined">add_circle</span>Add New Task</button>
@@ -71,8 +75,9 @@
 						<button id="skip-btn" class="hidden"><span class="material-symbols-outlined">skip_next</span>skip</button>
 						<button id="stop-btn" class="hidden"><span class="material-symbols-outlined">stop</span>Stop</button>
 					</section>
-					<ol id="todo-list">
-					</ol>
+					<!-- actual list -->
+					<ol id="todo-list"></ol>
+					<!-- add new task form -->
 					<section id="add">
 						<div id="form"></div>
 					</section>
