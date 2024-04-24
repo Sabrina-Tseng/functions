@@ -196,6 +196,7 @@ function displayTask(){
 			todoItems.splice(findIndex(item), 0, tempObj);
 			console.log(todoItems);
 			storeTodoList();
+			displayTask();
 		});
 	});
 	const initSortableList = (e) => {
@@ -235,6 +236,13 @@ function displayTask(){
 		itemname.onclick = () => {
 
 			console.log('h3 clicked')
+			
+			// no drag
+			document.querySelectorAll('#todo li').forEach(item => {
+				item.setAttribute('draggable', false);
+				item.style.cursor = 'default';
+			});
+
 			itemname.innerHTML = `<input type="text" id="item-name-input" name="item-name-input" value="${itemname.innerHTML}">`
 			const inputbox = document.querySelector('.item-name > input');
 
@@ -263,6 +271,12 @@ function displayTask(){
 	});
 	document.querySelectorAll('.item-duration').forEach((itemname,index) => {
 		itemname.onclick = () => {
+
+			// no drag
+			document.querySelectorAll('#todo li').forEach(item => {
+				item.setAttribute('draggable', false);
+				item.style.cursor = 'default';
+			});
 
 			itemname.innerHTML = `<input type="number" id="item-duration-input" name="item-duration-input" min="1" max="60" value="${todoItems[index].duration}"> minute`
 			const inputbox = document.querySelector('.item-duration > input');

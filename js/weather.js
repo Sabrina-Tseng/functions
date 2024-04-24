@@ -21,6 +21,7 @@ function positionToLatLong(position){
 
 //get weather from api
 function getWeather(){
+	// https://open-meteo.com/
 
 	// let lat = position.coords.latitude;
 	// let long = position.coords.longitude;
@@ -323,6 +324,7 @@ let weatherTimer = setInterval(function() {
 }, 600000);
 
 //get city
+// https://locationiq.com/
 let cityName = ``;
 function getCity(position){
 
