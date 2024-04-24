@@ -303,7 +303,7 @@ addButton.onclick = () => {
 					<label for="task">Task Name</label>
 				</div>
 				<div>
-					<input type="number" id="time" name="time" min="1" max="60" required> 
+					<input type="number" id="time" name="time" min="1" required> 
 					<label for="time">Duration (min)</label>
 				</div>
 			</section>

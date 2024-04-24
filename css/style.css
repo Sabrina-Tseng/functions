@@ -136,7 +136,6 @@ h1 {
 /* structure */
 #info{
 	z-index: 0;
-	/* width: auto; */
 }
 @media (min-width: 768px) {
 	#info{
@@ -509,11 +508,10 @@ button {
 	gap: calc(var(--gutter)/2);
 	flex-wrap: wrap;
 }
-#input-box div {
+#input-box > div {
 	flex-grow: 1;
 	display: flex;
 	flex-direction: column;
-	gap: calc(var(--gutter)/8);
 }
 
 /* input box */
@@ -530,7 +528,6 @@ button {
 
 /* input box label */
 #input-box label {
-	/* font-weight: 600; */
 	position: absolute;
 	margin-top:calc(var(--gutter)*0.25);
 	font-size: calc(var(--font-size-small)*1);
@@ -555,7 +552,7 @@ button {
 	white-space: nowrap;
 	padding: calc(var(--gutter)*0.1);
 	margin-left: calc(var(--gutter)* -0.1);
-	border-radius: 2px;
+	border-radius: 5px;
 	border: 1px solid rgba(255, 255, 255, 0);
 }
 #todo-list.edit h3:hover{
@@ -564,7 +561,7 @@ button {
 }
 #todo-list.edit h3:has(input:focus)
 {
-	border: 1px solid grey;
+	border: 1px solid orange;
 	width: min-content;
 }
 
@@ -575,7 +572,7 @@ button {
 	display: inline-block;
 	padding: calc(var(--gutter)*0.1);
 	margin-left: calc(var(--gutter)* -0.1);
-	border-radius: 2px;
+	border-radius: 5px;
 	border: 1px solid rgba(255, 255, 255, 0);
 }
 
@@ -586,7 +583,7 @@ button {
 	padding: calc(var(--gutter)*0.1);
 	margin-left: calc(var(--gutter)* -0.1);
 	border-radius: 2px;
-	border: 1px solid grey;
+	border: 1px solid orange;
 	width: min-content;
 }
 
