@@ -254,7 +254,9 @@ function displayTask(){
 			//when clicked outside
 			inputbox.onblur = () => {
 				// console.log(index)
-				todoItems[index].name = inputbox.value;
+				if(inputbox.value.trim() != ''){
+					todoItems[index].name = inputbox.value.trim()
+				}
 				displayTask();
 			}
 		}
@@ -276,7 +278,9 @@ function displayTask(){
 			//when clicked outside
 			inputbox.onblur = () => {
 				// console.log(index)
-				todoItems[index].duration = inputbox.value;
+				if(inputbox.value.trim() != ''){
+					todoItems[index].duration = inputbox.value.trim()
+				}
 				displayTask();
 			}
 		}
