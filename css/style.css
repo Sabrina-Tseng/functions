@@ -416,7 +416,7 @@ input[type="time"]::-webkit-calendar-picker-indicator{
 	/* font-size: var(--font-size); */
 }
 .item-duration{
-	opacity: 50%;
+	color: gray;
 }
 
 /* progress bar */
@@ -546,6 +546,48 @@ button {
 
 .hidden {
 	display: none;
+}
+
+/* ------ click to edit ------ */
+#todo-list h3{
+	display: inline-block;
+	width: min-content;
+	white-space: nowrap;
+	padding: calc(var(--gutter)*0.1);
+	margin-left: calc(var(--gutter)* -0.1);
+	border-radius: 2px;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+#todo-list.edit h3:hover{
+	border: 1px solid lightgray;
+	cursor: text;
+}
+#todo-list.edit h3:has(input:focus)
+{
+	border: 1px solid grey;
+	width: min-content;
+}
+
+#todo-list.edit p{
+	cursor: text;
+}
+#todo-list p span{
+	display: inline-block;
+	padding: calc(var(--gutter)*0.1);
+	margin-left: calc(var(--gutter)* -0.1);
+	border-radius: 2px;
+	border: 1px solid rgba(255, 255, 255, 0);
+}
+
+#todo-list.edit p:hover span{
+	border: 1px solid lightgray;
+}
+#todo-list.edit p input:focus{
+	padding: calc(var(--gutter)*0.1);
+	margin-left: calc(var(--gutter)* -0.1);
+	border-radius: 2px;
+	border: 1px solid grey;
+	width: min-content;
 }
 
 /* ==================== footer ==================== */

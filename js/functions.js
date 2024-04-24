@@ -52,3 +52,11 @@ function addZeroIfLessThan10(num){
 		return num
 	}
 }
+
+//determine the li index in the ol
+function findIndex(li)
+{
+	var nodes = Array.from( dotolist.children );
+	var index = nodes.indexOf( li );
+	return index;
+}

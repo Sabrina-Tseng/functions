@@ -110,6 +110,9 @@ function displayTask(){
 	//save to local storage
 	storeTodoList();
 
+	//set mode
+	document.getElementById('todo-list').classList.add('edit');
+
 	let list = '';
 
 	todoItems.forEach((item) =>{
@@ -118,7 +121,7 @@ function displayTask(){
 				<div class='flex'>
 					<div>
 						<h3 class='item-name'>${item.name}</h3>
-						<p class='item-duration'>${item.duration} minutes</p>
+						<p class='item-duration'><span>${item.duration}</span> minutes</p>
 					</div>
 					<div>
 						<div class='time-left hidden'>
@@ -227,13 +230,58 @@ function displayTask(){
 		}
 	}
 
-}
-//determine the li index in the ol
-function findIndex(li)
-{
-	var nodes = Array.from( dotolist.children );
-	var index = nodes.indexOf( li );
-	return index;
+	//click to edit
+	document.querySelectorAll('.item-name').forEach((itemname,index) => {
+		itemname.onclick = () => {
+
+			console.log('h3 clicked')
+			itemname.innerHTML = `<input type="text" id="item-name-input" name="item-name-input" value="${itemname.innerHTML}">`
+			const inputbox = document.querySelector('.item-name > input');
+
+			// flexible width
+			//https://stackoverflow.com/questions/3392493/adjust-width-of-input-field-to-its-input
+			inputbox.style.width = inputbox.value.length + "ch";
+			inputbox.oninput = () => {
+				inputbox.style.width = inputbox.value.length + "ch";
+			}
+
+			// active input box
+			inputbox.focus();
+
+			// not clickable again
+			itemname.onclick = () => {}
+
+			//when clicked outside
+			inputbox.onblur = () => {
+				// console.log(index)
+				todoItems[index].name = inputbox.value;
+				displayTask();
+			}
+		}
+	});
+	document.querySelectorAll('.item-duration').forEach((itemname,index) => {
+		itemname.onclick = () => {
+
+			itemname.innerHTML = `<input type="number" id="item-duration-input" name="item-duration-input" min="1" max="60" value="${todoItems[index].duration}"> minute`
+			const inputbox = document.querySelector('.item-duration > input');
+
+			inputbox.style.width = 'calc(var(--gutter)*1.25)';
+
+			// active input box
+			inputbox.focus();
+
+			// not clickable again
+			itemname.onclick = () => {}
+
+			//when clicked outside
+			inputbox.onblur = () => {
+				// console.log(index)
+				todoItems[index].duration = inputbox.value;
+				displayTask();
+			}
+		}
+	});
+
 }
 
 //========== add new task ==========
@@ -255,7 +303,7 @@ addButton.onclick = () => {
 					<label for="task">Task Name</label>
 				</div>
 				<div>
-					<input type="number" id="time" name="time" min="1" required> 
+					<input type="number" id="time" name="time" min="1" max="60" required> 
 					<label for="time">Duration (min)</label>
 				</div>
 			</section>
@@ -531,6 +579,7 @@ stopBtn.onclick = () => {
 }
 
 let currentMode = 'edit';
+
 //play mode
 function playMode(){
 
@@ -546,7 +595,7 @@ function playMode(){
 		item.classList.add("hidden");
 	});
 
-	//cursor
+	//set drag and cursor
 	document.querySelectorAll('#todo li').forEach(item => {
 		item.setAttribute('draggable', false);
 		item.style.cursor = 'pointer';
@@ -564,6 +613,18 @@ function playMode(){
 	pauseBtn.classList.remove("hidden");
 	skipBtn.classList.remove("hidden");
 	document.getElementById('add').classList.add("hidden");
+
+	//disable click to edit
+	document.getElementById('todo-list').classList.remove('edit')
+	document.querySelectorAll('.item-name').forEach(itemname => {
+		itemname.onclick = () => {}
+		itemname.onmouseover = () =>{}
+	});
+	document.querySelectorAll('.item-duration').forEach(itemname => {
+		itemname.onclick = () => {}
+		itemname.onmouseover = () =>{}
+		
+	});
 }
 
 //edit mode
